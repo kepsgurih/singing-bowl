@@ -150,7 +150,7 @@
 
 		<div class="mt-16 text-center">
 			<a
-				href="/#register"
+				href="/auth/register"
 				class="inline-flex items-center gap-2 bg-[#0d9488] hover:bg-[#0f766e] text-white font-medium px-6 py-3 rounded-lg transition-colors"
 			>
 				Daftar Sekarang

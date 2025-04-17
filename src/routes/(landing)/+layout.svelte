@@ -1,7 +1,18 @@
 <script>
-	import { MapPin, Phone } from 'lucide-svelte';
+	import { MapPin, Phone, Menu, X } from 'lucide-svelte';
+	import { goto } from '$app/navigation';
 
-	let { children } = $props();
+	export let children;
+
+	let isMenuOpen = false;
+
+	function toggleMenu() {
+		isMenuOpen = !isMenuOpen;
+	}
+
+	function handleRegister() {
+		goto('/auth/login');
+	}
 </script>
 
 <svelte:head>
@@ -32,16 +43,67 @@
 					Kontak
 				</a>
 			</nav>
-			<!-- svelte-ignore event_directive_deprecated -->
+
+			<!-- Mobile Menu Button -->
 			<button
-				on:click={() => (window.location.href = '/auth/login')}
-				class="bg-[#0d9488] hover:bg-[#0f766e] text-white px-4 py-2 rounded-lg transition-colors font-medium"
+				class="md:hidden p-2 rounded-lg hover:bg-[#f0fdfa] transition-colors"
+				on:click={toggleMenu}
+				aria-label="Toggle menu"
+			>
+				{#if isMenuOpen}
+					<X class="h-6 w-6 text-[#0f766e]" />
+				{:else}
+					<Menu class="h-6 w-6 text-[#0f766e]" />
+				{/if}
+			</button>
+
+			<!-- Desktop Register Button -->
+			<button
+				on:click={handleRegister}
+				class="hidden md:block bg-[#0d9488] hover:bg-[#0f766e] text-white px-4 py-2 rounded-lg transition-colors font-medium"
 			>
 				Daftar Sekarang
 			</button>
 		</div>
+
+		<!-- Mobile Menu -->
+		{#if isMenuOpen}
+			<div class="md:hidden absolute top-full left-0 right-0 bg-white/95 backdrop-blur-md border-b border-[#ccfbf1]">
+				<div class="container mx-auto px-4 py-4 flex flex-col gap-4">
+					<a href="/" class="text-[#0f766e] hover:text-[#134e4a] transition-colors py-2"> Beranda </a>
+					<a href="/layanan" class="text-[#0f766e] hover:text-[#134e4a] transition-colors py-2">
+						Layanan
+					</a>
+					<a href="/testimoni" class="text-[#0f766e] hover:text-[#134e4a] transition-colors py-2">
+						Testimoni
+					</a>
+					<a href="/kontak" class="text-[#0f766e] hover:text-[#134e4a] transition-colors py-2">
+						Kontak
+					</a>
+					<button
+						on:click={handleRegister}
+						class="w-full bg-[#0d9488] hover:bg-[#0f766e] text-white px-4 py-2 rounded-lg transition-colors font-medium mt-4"
+					>
+						Daftar Sekarang
+					</button>
+				</div>
+			</div>
+		{/if}
 	</header>
-	{@render children()}
+
+	<!-- Backdrop Blur -->
+	{#if isMenuOpen}
+		<!-- svelte-ignore a11y_click_events_have_key_events -->
+		<!-- svelte-ignore a11y_no_static_element_interactions -->
+		<div 
+			class="fixed inset-0 bg-black/20 backdrop-blur-sm z-0 md:hidden"
+			on:click={toggleMenu}
+		></div>
+	{/if}
+
+	<div class="flex-1">
+		{@render children()}
+	</div>
 	<footer id="contact" class="bg-[#134e4a] text-white py-12 px-4">
 		<div class="container mx-auto max-w-6xl">
 			<div class="grid md:grid-cols-3 gap-8">

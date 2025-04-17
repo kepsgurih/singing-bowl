@@ -368,7 +368,8 @@
 				<div class="md:col-span-2 lg:col-span-3 mt-8 text-center">
 					<button
 						class="inline-flex items-center gap-2 bg-[#f0fdfa] hover:bg-[#ccfbf1] text-[#0d9488] font-medium px-6 py-3 rounded-lg border border-[#99f6e4] transition-colors"
-					>
+						on:click={() => (window.location.href = '/layanan')}
+						>
 						Lihat Semua Layanan Kami
 						<ArrowRight class="h-4 w-4" />
 					</button>
