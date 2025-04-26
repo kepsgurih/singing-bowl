@@ -1,10 +1,7 @@
 <script>
-	import { page } from '$app/state';
 	import { CalendarHeart, ChartPie, DoorClosed, MenuIcon, Settings, TreePine, X } from 'lucide-svelte';
-	import { onMount } from 'svelte';
 
     let { children } = $props();
-    let currentUrl = $state('');
     let open = $state(true);
 
     const menuItem = [
@@ -29,10 +26,6 @@
             link: '/dashboard/settings'
         }
     ]
-
-    onMount(() => {
-        currentUrl = window.location.pathname
-    })
     // const pathname = window.location.pathname;
 </script>
 
@@ -44,8 +37,8 @@
         <div class="flex flex-col flex-1 overflow-y-auto">
             <nav class="flex-1 px-2 py-4 bg-rose-600">
                 {#each menuItem as item}
-                <a href="{item.link}" class="flex items-center px-4 py-2 text-gray-100 mb-2 hover:bg-rose-900 group rounded hover:font-semibold {currentUrl === item.link ? 'font-semibold bg-rose-900' : 'bg-rose-700'}">
-                    <div class="{currentUrl === item.link ? 'bg-indigo-600' : ''} group-hover:bg-indigo-600 rounded text-white w-8 h-8 flex items-center justify-center mr-2">
+                <a href="{item.link}" class="flex items-center px-4 py-2 text-gray-100 mb-2 hover:bg-rose-900 group rounded hover:font-semibold">
+                    <div class="group-hover:bg-indigo-600 rounded text-white w-8 h-8 flex items-center justify-center mr-2">
                         <item.icon class="w-5 h-5 font-semibold" />
                     </div>
                     {item.label}
