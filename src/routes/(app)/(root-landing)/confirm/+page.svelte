@@ -20,6 +20,8 @@
 	};
 
 	const token = get(accessToken);
+	const confirmMessage = `Hello, I have completed the payment of Please find the proof of transfer attached.`;
+	const whatsappLink = `https://wa.me/6285173337559?text=${encodeURIComponent(confirmMessage)}`;
 </script>
 
 <div class="max-w-md mx-auto p-6 space-y-6">
@@ -41,12 +43,13 @@
 		<div class="text-green-700 bg-green-100 p-4 rounded-lg text-sm">
 			Account verified. You can proceed to payment or confirmation.
 		</div>
-		<button
-			on:click={() => goto('/payment')}
-			class="w-full py-3 bg-rose-600 hover:bg-rose-700 text-white rounded-xl shadow-md transition"
-		>
-			Continue
-		</button>
+		<a
+		href={whatsappLink}
+		target="_blank"
+		class="block text-center py-3 bg-green-600 hover:bg-green-700 text-white rounded-xl shadow-md transition"
+	>
+		Confirm via WhatsApp
+	</a>
 	{:else}
 		<div class="bg-yellow-100 p-4 rounded-lg text-sm text-yellow-700">
 			We need to know who you are before continuing. Please log in or register your account.

@@ -104,8 +104,9 @@
 	}
 </script>
 
-<div class="min-h-screen flex items-center justify-center w-full mt-10">
+<div class="min-h-screen flex items-center justify-center w-full mt-4 md:mt-10">
 	<div class="w-full max-w-md bg-white rounded-2xl shadow-md p-6 mx-4">
+  
 		<h1 class="text-2xl font-bold mb-2 text-center">Register Account</h1>
 		<p class="text-sm text-gray-600 mb-6 text-center">
 			Before you get started let's create your account
