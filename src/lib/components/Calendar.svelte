@@ -67,8 +67,17 @@
 	};
 
 	const isDateDisabled = (date: dayjs.Dayjs) => {
-		return !getKelasForDate(date).length;
-	};
+	// kalau tidak ada kelas di tanggal itu, disable
+	const kelas = getKelasForDate(date);
+	if (!kelas.length) return true;
+
+	// kalau semua kelas di tanggal itu sudah lewat (expired), disable juga
+	const allExpired = kelas.every((k) =>
+		dayjs(`${k.date} ${k.time}`, 'YYYY-MM-DD HH:mm').isBefore(dayjs())
+	);
+	return allExpired;
+};
+
 
 	const hari = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
 
@@ -154,11 +163,12 @@
 				{#each getKelasForDate(selectedDate) as k}
 						<button
 							on:click={() => handleConfirm(k.id)}
-							disabled={k.status !== 'active'}
-							class={["rounded-lg p-2 text-sm" ,k.status === 'active'
+							disabled={k.status !== 'active' || dayjs(`${k.date} ${k.time}`, 'YYYY-MM-DD HH:mm').isBefore(dayjs())}
+
+							class={["rounded-lg p-2 text-sm disable:bg-red-900 disabled:bg-gray-600 disabled:text-gray-200" ,k.status === 'active'
 								? 'bg-purple-500 text-white hover:bg-purple-600'
 								: 'bg-red-300 text-gray-50 cursor-not-allowed']}>
-								{k.time}
+								<span class={k.status !== 'active' || dayjs(`${k.date} ${k.time}`, 'YYYY-MM-DD HH:mm').isBefore(dayjs()) ? "line-through" : ""}>{k.time}</span>
 								<span class="text-xs block">{k.status === 'active' ? '' : k.status.toLocaleUpperCase()}</span>
 								</button
 						>

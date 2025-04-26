@@ -26,7 +26,6 @@
 
 <div class="max-w-md mx-auto p-6 space-y-6">
 	<h2 class="text-2xl font-semibold text-gray-800">Confirm Your Session</h2>
-
 	<div class="bg-white p-4 rounded-xl shadow space-y-2 border">
 		<h3 class="text-lg font-medium text-gray-700">{selectedClass.title}</h3>
 		<p class="text-sm text-gray-600">{selectedClass.description}</p>

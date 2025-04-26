@@ -14,16 +14,79 @@ datasource db {
 }
 
 model User {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
-  email    String @unique
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  email    String   @unique
   password String
   fullName String
   phone    String
   address  String?
   role     RoleList @default(USER)
+
+  Booked Booked[]
+}
+
+model Config {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  avatar      String
+  description String
+}
+
+model LinkTree {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  username String
+  url      String
+  icon     String
+  order    Int
+}
+
+model GroupSchedule {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  label     String
+  order     Int
+  schedules Schedule[]
+}
+
+model Schedule {
+  id       String        @id @default(auto()) @map("_id") @db.ObjectId
+  label    String
+  duration Int
+  price    Int
+  groupId  String        @db.ObjectId
+  group    GroupSchedule @relation(fields: [groupId], references: [id])
+
+  calendars Calendar[]
+}
+
+model Calendar {
+  id     String         @id @default(auto()) @map("_id") @db.ObjectId
+  date   DateTime
+  time   String
+  kelas  String
+  status CalendarStatus
+
+  scheduleId String   @db.ObjectId
+  schedule   Schedule @relation(fields: [scheduleId], references: [id])
+
+  Booked Booked[]
+}
+
+model Booked {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  calendarId String   @db.ObjectId
+  calendar   Calendar @relation(fields: [calendarId], references: [id])
+  userId     String   @db.ObjectId
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum RoleList {
   USER
   ADMIN
+}
+
+enum CalendarStatus {
+  Finish
+  Active
+  Booked
 }

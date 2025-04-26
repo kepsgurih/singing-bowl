@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { accessToken } from '$lib/stores/auth';
+	import { accessToken, refreshToken } from '$lib/stores/auth';
 	import Toastify from 'toastify-js';
 
 	import { z } from 'zod';
@@ -38,7 +38,8 @@
 			const data = await res.json();
 
 			if (res.ok) {
-				accessToken.set(data.token);
+				accessToken.set(data.accessToken);
+				refreshToken.set(data.refreshToken)
 				window.location.href = '/confirm';
 				loading = false;
 			} else {
@@ -46,7 +47,7 @@
 					text: data.error,
 					duration: 4000,
 					style: {
-						background: 'linear-gradient(to right, #FDAE61, #d7191c)'
+						background: '#d7191c',
 					}
 				}).showToast();
 				loading = false;

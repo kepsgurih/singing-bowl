@@ -46,6 +46,7 @@
 		"dayjs": "^1.11.13",
 		"jsonwebtoken": "^9.0.2",
 		"lucide-svelte": "^0.488.0",
+		"posthog-js": "^1.236.7",
 		"prisma": "^6.6.0",
 		"svelte-toasts": "^1.1.2",
 		"toastify-js": "^1.12.0",

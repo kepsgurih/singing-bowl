@@ -3,7 +3,10 @@ import jwt from 'jsonwebtoken';
 const SECRET = import.meta.env.VITE_JWT_SECRET;
 
 export function signToken(payload: object) {
-	return jwt.sign(payload, SECRET, { expiresIn: '1h' });
+	return {
+		accessToken: jwt.sign(payload, SECRET, { expiresIn: '1m' }),
+		refreshToken: jwt.sign(payload, SECRET, { expiresIn: '7d' }),
+	}
 }
 
 export function verifyToken(token: string) {

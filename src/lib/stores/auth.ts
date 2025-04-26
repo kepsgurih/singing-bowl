@@ -1,21 +1,24 @@
 import { browser } from '$app/environment';
-import { redirect } from '@sveltejs/kit';
 import { writable } from 'svelte/store';
 
 export const accessToken = writable<string | null>(null);
+export const refreshToken = writable<string | null>(null);
 export const userSession = writable<any>(null);
 export const loadingSession = writable<boolean>(true);
 
 async function loadSession() {
     if (typeof localStorage !== 'undefined') {
         const token = localStorage.getItem('accessToken');
-        console.log(token, 'token');
-        if (token) {
+        const refresh = localStorage.getItem('refreshToken')
+        console.log('here')
+        if (token && refresh) {
+            console.log('here2')
             accessToken.set(token);
             try {
                 const res = await fetch('/api/auth/me', {
                     headers: {
-                        Authorization: `Bearer ${token}`
+                        Authorization: `Bearer ${token}`,
+                        'x-refresh-token': refresh
                     }
                 });
 
@@ -24,13 +27,21 @@ async function loadSession() {
                 }
 
                 const user = await res.json();
-                console.log(user, 'user');
-                userSession.set(user);
+                if(user.accessToken){
+                    console.log('hereee')
+                    accessToken.set(user.accessToken)
+                    localStorage.setItem('accessToken',user.accessToken)
+                    userSession.set(user.user);
+                } else {
+                    userSession.set(user.user);
+                }
             } catch (error) {
                 console.log(error, 'error');
                 localStorage.removeItem('accessToken');
+                localStorage.removeItem('refreshToken');
                 userSession.set(null);
                 accessToken.set(null);
+                refreshToken.set(null)
             } finally {
                 loadingSession.set(false);
             }
@@ -45,6 +56,12 @@ accessToken.subscribe((value) => {
         localStorage.setItem('accessToken', value);
     }
 });
+
+refreshToken.subscribe((value) => {
+    if (browser && value !== null) {
+         localStorage.setItem('refreshToken', value);
+     }
+ });
 
 
 loadSession();

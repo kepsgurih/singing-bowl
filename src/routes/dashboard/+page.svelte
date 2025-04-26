@@ -1,8 +1,131 @@
-<script>
-	import { goto } from "$app/navigation";
-	import { onMount } from "svelte";
+<script lang="ts">
+	import { goto } from '$app/navigation';
+	import { accessToken, refreshToken } from '$lib/stores/auth';
+	import Toastify from 'toastify-js';
 
-    onMount(() => {
-        goto('/dashboard/app')
-    })
+	import { z } from 'zod';
+
+	let loading = false;
+
+	interface LoginInterface {
+		email: string;
+		password: string;
+	}
+
+	let form = {
+		email: '',
+		password: ''
+	};
+
+	let errors: Partial<Record<keyof typeof form, string>> = {};
+
+	const schema = z.object({
+		email: z.string().email({ message: 'Invalid email' }),
+		password: z.string().min(6, { message: 'Password must be at least 6 characters' })
+	});
+
+	async function handleLogin(form: LoginInterface) {
+		loading = true;
+		try {
+			const res = await fetch('/api/auth/login', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(form)
+			});
+
+			const data = await res.json();
+
+			if (res.ok) {
+				accessToken.set(data.accessToken);
+				refreshToken.set(data.refreshToken)
+				window.location.href="/dashboard"
+				loading = false;
+			} else {
+				Toastify({
+					text: data.error,
+					duration: 4000,
+					style: {
+						background: '#d7191c',
+					}
+				}).showToast();
+				loading = false;
+			}
+		} catch (err) {
+			Toastify({
+				text: err instanceof Error ? err.message : String(err),
+				duration: 4000,
+				style: {
+					background: 'linear-gradient(to right, #FDAE61, #d7191c)'
+				}
+			}).showToast();
+		} finally {
+			loading = false;
+		}
+	}
+
+	async function handleSubmit(e: Event) {
+		e.preventDefault();
+		const result = schema.safeParse(form);
+
+		if (!result.success) {
+			errors = {};
+			for (const issue of result.error.issues) {
+				const field = issue.path[0] as keyof typeof form;
+				errors[field] = issue.message;
+			}
+		} else {
+			errors = {};
+			await handleLogin(form);
+			// Lanjutkan submit ke server atau logika lainnya
+		}
+	}
 </script>
+
+<div class="min-h-screen flex items-center justify-center w-full">
+	<div class="w-full max-w-sm bg-white rounded-2xl shadow-md p-6">
+		<h1 class="text-2xl font-bold mb-2 text-center">Welcome Back</h1>
+		<p class="text-sm text-gray-600 mb-6 text-center">Hello! Good to see you again</p>
+
+		<form on:submit={handleSubmit}>
+			<div class="mb-5">
+				<label for="email" class="block mb-2 text-sm font-medium text-gray-900">Your email</label>
+				<input
+					type="email"
+					id="email"
+					class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+					bind:value={form.email}
+					placeholder="john.doe@gmail.com"
+					required
+				/>
+				{#if errors.email}
+					<p class="text-red-500 text-sm mt-1">{errors.email}</p>
+				{/if}
+			</div>
+			<div class="mb-5">
+				<label for="password" class="block mb-2 text-sm font-medium text-gray-900"
+					>Your password</label
+				>
+				<input
+					type="password"
+					id="password"
+					placeholder="**********"
+					bind:value={form.password}
+					class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+					required
+				/>
+				{#if errors.password}
+					<p class="text-red-500 text-sm mt-1">{errors.password}</p>
+				{/if}
+			</div>
+			<button
+				type="submit"
+				disabled={loading}
+				class="w-full py-3 bg-rose-600 hover:bg-rose-700 text-white rounded-xl shadow-md transition"
+			>
+				{loading ? 'Loading...' : 'Sign In'}
+			</button>
+		</form>
+	</div>
+</div>
