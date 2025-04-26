@@ -14,7 +14,7 @@
 	  alt="Foto Profil"
 	  class="w-24 h-24 rounded-full border-4 border-white shadow-lg mt-10 mb-4"
 	/>
-	<h1 class="text-xl font-semibold text-gray-800 mb-1">@<span class="font-nanum">namamu</span></h1>
+	<h1 class="text-xl font-semibold text-gray-800 mb-1">@<span class="font-nanum">vickyaaa</span></h1>
 	<div class="w-full max-w-md px-6 mb-6">
 		<p class="text-sm text-gray-600 text-justify leading-relaxed">
 		  Selamat datang! Temukan semua tautan pentingku di bawah ini ✨ Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil molestias, ab a nemo officia temporibus ducimus harum aspernatur, qui vel enim. Vitae modi impedit doloremque voluptas itaque quo cupiditate consequuntur.

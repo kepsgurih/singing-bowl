@@ -5,6 +5,8 @@
 	import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 	import customParseFormat from 'dayjs/plugin/customParseFormat';
 	import 'dayjs/locale/id';
+	import { goto } from '$app/navigation';
+	import { confirmClass } from '$lib/stores/classConfirm';
 
 	dayjs.extend(localizedFormat);
 	dayjs.extend(isSameOrAfter);
@@ -12,7 +14,13 @@
 	dayjs.extend(customParseFormat);
 	dayjs.locale('id');
 
-	export let kelasData: { date: string; time: string; kelas: string }[] = [];
+	export let kelasData: {
+		id: string;
+		date: string;
+		time: string;
+		kelas: string;
+		status: string;
+	}[] = [];
 
 	let currentDate = dayjs();
 	let selectedDate: dayjs.Dayjs | null = null;
@@ -46,8 +54,7 @@
 	};
 
 	const getPaddingStart = () => {
-		// dayjs().day() → 0 (Minggu) sampai 6 (Sabtu)
-		return currentDate.startOf('month').day(); // akan menghasilkan index sesuai array `hari`
+		return currentDate.startOf('month').day();
 	};
 
 	const hasKelasThisMonth = () => {
@@ -64,6 +71,11 @@
 	};
 
 	const hari = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
+
+	const handleConfirm = (id: string) => {
+		confirmClass.set(id);
+		goto('/confirm');
+	};
 </script>
 
 <div class="p-4 space-y-4 relative">
@@ -79,7 +91,7 @@
 		<h2 class="text-lg font-semibold">{currentDate.format('MMMM YYYY')}</h2>
 		<button
 			on:click={nextMonth}
-			disabled={currentDate.isAfter(dayjs().add(2, 'month'))}
+			disabled={currentDate.isAfter(dayjs().add(1, 'month'))}
 			class={`px-3 py-1 bg-gray-200 rounded-md hover:bg-gray-300 ${currentDate.isAfter(dayjs().add(2, 'month')) ? 'cursor-not-allowed opacity-50' : ''}`}
 		>
 			&gt;
@@ -103,8 +115,8 @@
 			</div>
 		{/if}
 		{#each Array(getPaddingStart()) as _}
-  <div></div>
-{/each}
+			<div></div>
+		{/each}
 
 		{#each getDaysInMonth() as day}
 			<button
@@ -140,11 +152,16 @@
 
 			<div class="grid grid-cols-2 gap-2">
 				{#each getKelasForDate(selectedDate) as k}
-					<button
-						on:click={() => alert('test pilih')}
-						class="bg-gradient-to-r from-violet-200 to-pink-200 text-gray-800 px-5 font-bold py-2 rounded"
-						>⏰ {k.time}</button
-					>
+						<button
+							on:click={() => handleConfirm(k.id)}
+							disabled={k.status !== 'active'}
+							class={["rounded-lg p-2 text-sm" ,k.status === 'active'
+								? 'bg-purple-500 text-white hover:bg-purple-600'
+								: 'bg-red-300 text-gray-50 cursor-not-allowed']}>
+								{k.time}
+								<span class="text-xs block">{k.status === 'active' ? '' : k.status.toLocaleUpperCase()}</span>
+								</button
+						>
 				{/each}
 			</div>
 		</div>
