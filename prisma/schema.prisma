@@ -22,7 +22,8 @@ model User {
   address  String?
   role     RoleList @default(USER)
 
-  Booked Booked[]
+  token     String? @unique
+  Booked   Booked[]
 }
 
 model Config {

@@ -18,7 +18,7 @@ export const POST: RequestHandler = async ({ request }) => {
 		}
 
 		const token = signToken({ email });
-
+		
 		return new Response(JSON.stringify({ accessToken: token.accessToken, refreshToken: token.refreshToken }), { status: 200 });
 	} catch (error) {
 		console.error(error, '/api/auth/login')

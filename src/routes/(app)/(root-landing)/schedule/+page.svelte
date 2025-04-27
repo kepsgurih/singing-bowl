@@ -126,6 +126,12 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Schedule - Singing Bowl Therapy</title>
+	<meta name="description" content="Explore our schedule for Singing Bowl Therapy sessions. Find the perfect time to relax and rejuvenate with our tailored programs for adults, kids, and groups." />
+	<meta name="keywords" content="Singing Bowl Therapy, Meditation Schedule, Relaxation, Sound Healing, Group Meditation, Kids Meditation" />
+</svelte:head>
+
 <div class="w-full max-w-md flex flex-col gap-8 p-6 mx-auto">
 	{#each group as g}
 		<div class="flex flex-col gap-4 bg-white p-4 rounded-lg">

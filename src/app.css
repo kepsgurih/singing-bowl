@@ -17,3 +17,15 @@
         font-family: 'Kanchenjunga', cursive;
     }
 }
+
+.input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db; /* Tailwind's border-gray-300 */
+    border-radius: 0.75rem; /* Tailwind's rounded-xl */
+    outline: none;
+    background-color: #f9fafb; /* Tailwind's bg-gray-50 */
+  }
+  .input:focus {
+    box-shadow: 0 0 0 2px #93c5fd; /* Tailwind's focus:ring-blue-300 */
+  }

@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { headerTitle } from '$lib/stores/header';
-	import { accessToken, loadingSession, userSession } from '$lib/stores/auth';
 	import { goto } from '$app/navigation';
-	import { get } from 'svelte/store';
+	import { page } from '$app/state';
 
 	headerTitle.set({
         title: 'Confirm Your Session',
@@ -18,8 +17,6 @@
 		price: 'Rp250.000',
 		location: 'Jl. Kebahagiaan No. 123, Jakarta Selatan' // kosongkan jika home care
 	};
-
-	const token = get(accessToken);
 	const confirmMessage = `Hello, I have completed the payment of Please find the proof of transfer attached.`;
 	const whatsappLink = `https://wa.me/6285173337559?text=${encodeURIComponent(confirmMessage)}`;
 </script>
@@ -35,10 +32,7 @@
 			<p class="text-sm text-gray-600">📍 Location: <strong>{selectedClass.location}</strong></p>
 		{/if}
 	</div>
-
-	{#if $loadingSession}
-		<div class="text-sm text-gray-600">Loading...</div>
-	{:else if token && $userSession}
+	{#if page.data.user}
 		<div class="text-green-700 bg-green-100 p-4 rounded-lg text-sm">
 			Account verified. You can proceed to payment or confirmation.
 		</div>
