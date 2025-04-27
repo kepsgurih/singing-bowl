@@ -83,7 +83,7 @@
 
 	const handleConfirm = (id: string) => {
 		confirmClass.set(id);
-		goto('/confirm');
+		goto('/confirm/'+id);
 	};
 </script>
 
@@ -163,13 +163,14 @@
 				{#each getKelasForDate(selectedDate) as k}
 						<button
 							on:click={() => handleConfirm(k.id)}
-							disabled={k.status !== 'active' || dayjs(`${k.date} ${k.time}`, 'YYYY-MM-DD HH:mm').isBefore(dayjs())}
+							disabled={k.status !== 'Active' || dayjs(`${k.date} ${k.time}`, 'YYYY-MM-DD HH:mm').isBefore(dayjs())}
 
-							class={["rounded-lg p-2 text-sm disable:bg-red-900 disabled:bg-gray-600 disabled:text-gray-200" ,k.status === 'active'
+							class={["rounded-lg p-2 text-sm disable:bg-red-900 disabled:bg-gray-600 disabled:text-gray-200" ,k.status === 'Active'
 								? 'bg-purple-500 text-white hover:bg-purple-600'
 								: 'bg-red-300 text-gray-50 cursor-not-allowed']}>
-								<span class={k.status !== 'active' || dayjs(`${k.date} ${k.time}`, 'YYYY-MM-DD HH:mm').isBefore(dayjs()) ? "line-through" : ""}>{k.time}</span>
-								<span class="text-xs block">{k.status === 'active' ? '' : k.status.toLocaleUpperCase()}</span>
+								<div>{k.kelas}</div>
+								<div class={k.status !== 'Active' || dayjs(`${k.date} ${k.time}`, 'YYYY-MM-DD HH:mm').isBefore(dayjs()) ? "line-through" : ""}>{k.time}</div>
+								<span class="text-xs block">{k.status === 'Active' ? '' : k.status.toLocaleUpperCase()}</span>
 								</button
 						>
 				{/each}

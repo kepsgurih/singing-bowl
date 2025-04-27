@@ -18,7 +18,7 @@ model User {
   email    String   @unique
   password String
   fullName String
-  phone    String
+  phone    String @unique
   address  String?
   role     RoleList @default(USER)
 
@@ -53,6 +53,7 @@ model Schedule {
   id       String        @id @default(auto()) @map("_id") @db.ObjectId
   label    String
   duration Int
+  description String[] @default([])
   price    Int
   groupId  String        @db.ObjectId
   group    GroupSchedule @relation(fields: [groupId], references: [id])
@@ -76,6 +77,7 @@ model Calendar {
 model Booked {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   calendarId String   @db.ObjectId
+  reason     String?
   calendar   Calendar @relation(fields: [calendarId], references: [id])
   userId     String   @db.ObjectId
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)

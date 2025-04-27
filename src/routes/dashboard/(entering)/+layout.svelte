@@ -1,5 +1,5 @@
 <script>
-	import { page } from '$app/stores'
+	import { page } from '$app/stores';
 	import {
 		CalendarHeart,
 		ChartPie,
@@ -9,7 +9,8 @@
 		Settings,
 		TreePine,
 		X,
-		CalendarCheck
+		CalendarCheck,
+		BookCheckIcon
 	} from 'lucide-svelte';
 
 	let { children } = $props();
@@ -17,11 +18,12 @@
 
 	const menuItem = [
 		{ icon: ChartPie, label: 'Dashboard', link: '/dashboard/app' },
-		{ icon: Parentheses, label: 'Group Schedule', link: '/dashboard/groupschedule' },
+		{ icon: Parentheses, label: 'Categories', link: '/dashboard/groupschedule' },
 		{ icon: CalendarCheck, label: 'Class Schedule', link: '/dashboard/schedules' },
 		{ icon: CalendarHeart, label: 'Class List', link: '/dashboard/calendars' },
 		{ icon: TreePine, label: 'Tree', link: '/dashboard/tree' },
-		{ icon: Settings, label: 'Settings', link: '/dashboard/settings' }
+		{ icon: Settings, label: 'Settings', link: '/dashboard/settings' },
+		{ icon: BookCheckIcon, label: 'Book', link: '/dashboard/book' }
 	];
 </script>
 
@@ -40,7 +42,7 @@
 		class={`fixed top-0 left-0 z-50 w-64 h-full bg-gradient-to-b from-rose-600 to-rose-700 transform ${open ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 md:static md:translate-x-0 md:flex md:flex-col shadow-md`}
 	>
 		<div class="flex items-center justify-center h-16 bg-rose-700 shadow-sm">
-			<span class="text-white text-sm font-bold tracking-wide">{$page.data.user.fullName}</span>
+			<span class="text-white text-sm font-bold tracking-wide font-kan">Panel Vickya</span>
 		</div>
 
 		<nav class="flex-1 px-4 py-6 overflow-y-auto space-y-2">
@@ -48,6 +50,7 @@
 				<a
 					href={item.link}
 					class="flex items-center gap-3 px-4 py-3 text-gray-100 rounded-lg hover:bg-rose-800 transition-colors"
+					onclick={() => (open = false)}
 				>
 					<div
 						class="bg-rose-800 p-2 rounded-md flex items-center justify-center group-hover:bg-rose-900 transition-colors"
@@ -77,7 +80,9 @@
 				</button>
 			</div>
 
-			<div class="flex-1 text-xl font-semibold text-gray-700">Dashboard</div>
+			<div class="flex-1 text-xl font-semibold text-gray-700 font-kan ml-8">
+				Hi! {$page.data.user.fullName}
+			</div>
 
 			<div class="flex items-center space-x-4">
 				<button

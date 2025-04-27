@@ -24,7 +24,7 @@
     });
   </script>
   
-  <div class="max-w-4xl mx-auto p-8">
+  <div class="p-8">
     <div class="flex justify-between items-center mb-6">
       <h1 class="text-3xl font-bold">LinkTree List</h1>
       <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500" on:click={() => goto('/dashboard/tree/new')}>
@@ -34,13 +34,13 @@
   
     <div class="space-y-4">
       {#each linkTrees as link}
-        <div class="flex items-center justify-between p-4 bg-white rounded-lg shadow-sm">
+        <div class="items-center p-4 bg-white rounded-lg shadow-sm">
           <div>
             <p class="font-semibold">{link.name}</p>
             <p class="text-gray-500 text-sm">@{link.username}</p>
             <a href={link.url} target="_blank" class="text-blue-500 text-sm w-[200px]">{link.url}</a>
           </div>
-          <div class="flex gap-2">
+          <div class="flex gap-2 mt-4">
             <button on:click={() => goto(`/dashboard/tree/edit/${link.id}`)} class="bg-yellow-400 px-3 py-1 rounded text-white hover:bg-yellow-500">
               Edit
             </button>

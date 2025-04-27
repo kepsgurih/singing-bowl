@@ -1,76 +1,108 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
-    import { goto } from '$app/navigation';
-  
-    interface Group {
+  export let data: {
+    groups: {
       id: string;
       label: string;
-    }
-  
-    let label = '';
-    let duration = 0;
-    let price = 0;
-    let groupId = '';
-  
-    let groups: Group[] = [];
-  
-    const fetchGroups = async () => {
-      const res = await fetch('/api/setup/groupschedule');
-      const data = await res.json();
-      if (data.success) {
-        groups = data.data;
-      }
-    };
-  
-    onMount(() => {
-      fetchGroups();
-    });
-  
-    const createSchedule = async () => {
-      const res = await fetch('/api/setup/schedule', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ label, duration, price, groupId })
-      });
-      const data = await res.json();
-      if (data.success) {
-        goto('/dashboard/schedules');
-      } else {
-        alert('Gagal membuat schedule');
-      }
-    };
-  </script>
-  
-  <div class="max-w-2xl mx-auto mt-12 p-6 bg-white shadow-lg rounded-2xl">
-    <h2 class="text-2xl font-bold mb-6 text-center">Tambah Schedule</h2>
-  
-    <form on:submit|preventDefault={createSchedule} class="space-y-6">
+    }[];
+  };
+</script>
+
+<div class="w-full p-4 md:p-6 lg:p-8">
+  <div class="bg-white rounded-2xl shadow-md p-6 md:p-8">
+    <h2 class="text-2xl md:text-3xl font-bold mb-8 text-center">Tambah Schedule</h2>
+
+    <form method="POST" class="space-y-6">
       <div>
         <label for="label" class="block mb-2 text-sm font-medium">Label</label>
-        <input id="label" bind:value={label} type="text" class="w-full p-3 border rounded-lg bg-gray-50" placeholder="Nama Schedule" />
+        <input 
+          id="label" 
+          name="label" 
+          type="text" 
+          class="w-full p-3 border rounded-lg bg-gray-50" 
+          placeholder="Nama Schedule" 
+          required
+        />
       </div>
-  
+
       <div>
-        <label for="duration" class="block mb-2 text-sm font-medium">Duration (Menit)</label>
-        <input id="duration" bind:value={duration} type="number" class="w-full p-3 border rounded-lg bg-gray-50" />
+        <label for="duration" class="block mb-2 text-sm font-medium">Durasi (Menit)</label>
+        <input 
+          id="duration" 
+          name="duration" 
+          type="number" 
+          class="w-full p-3 border rounded-lg bg-gray-50" 
+          placeholder="Durasi"
+          required 
+        />
       </div>
-  
+
       <div>
         <label for="price" class="block mb-2 text-sm font-medium">Harga</label>
-        <input id="price" bind:value={price} type="number" class="w-full p-3 border rounded-lg bg-gray-50" />
+        <input 
+          id="price" 
+          name="price" 
+          type="number" 
+          class="w-full p-3 border rounded-lg bg-gray-50" 
+          placeholder="Harga"
+          required 
+        />
       </div>
-  
+
       <div>
-        <label for="group" class="block mb-2 text-sm font-medium">Group</label>
-        <select id="group" bind:value={groupId} class="w-full p-3 border rounded-lg bg-gray-50">
+        <label for="groupId" class="block mb-2 text-sm font-medium">Group</label>
+        <select 
+          id="groupId" 
+          name="groupId" 
+          class="w-full p-3 border rounded-lg bg-gray-50"
+          required
+        >
           <option value="">Pilih Group</option>
-          {#each groups as group}
+          {#each data.groups as group}
             <option value={group.id}>{group.label}</option>
           {/each}
         </select>
       </div>
-  
-      <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700">Simpan</button>
+
+      <div class="space-y-4">
+        <label for="descriptions" class="block mb-2 text-sm font-medium">Descriptions</label>
+        
+        <div id="descriptions-list" class="space-y-4">
+          <div class="flex gap-2 items-center">
+            <input
+              type="text"
+              id="descriptions" 
+              name="descriptions"
+              class="flex-1 p-3 border rounded-lg bg-gray-50"
+              placeholder="Deskripsi Schedule"
+              required
+            />
+          </div>
+        </div>
+
+        <button 
+          type="button" 
+          on:click={() => {
+            const list = document.getElementById('descriptions-list')!;
+            const div = document.createElement('div');
+            div.className = 'flex gap-2 items-center';
+            div.innerHTML = `
+              <input type="text" name="descriptions" class="flex-1 p-3 border rounded-lg bg-gray-50" placeholder="Deskripsi Schedule" required />
+              <button type="button" class="bg-rose-500 text-white px-3 py-2 rounded-lg hover:bg-rose-600" onclick="this.parentElement.remove()">Hapus</button>
+            `;
+            list.appendChild(div);
+          }}
+          class="mt-2 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600"
+        >
+          + Tambah Deskripsi
+        </button>
+      </div>
+
+      <button 
+        type="submit" 
+        class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 mt-6"
+      >
+        Simpan
+      </button>
     </form>
   </div>
-  
+</div>

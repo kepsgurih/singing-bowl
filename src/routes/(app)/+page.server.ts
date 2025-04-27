@@ -9,8 +9,6 @@ export const load = async ({ locals }) => {
             links: [],
         }
     }
-    console.log('config', config)
-    console.log('links', links)
     return{
         config : {
             name: config?.name,

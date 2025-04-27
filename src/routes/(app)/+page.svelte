@@ -52,7 +52,8 @@
 			<img src="/icons/calendar.svg" alt="Calendar" class="w-6 h-6" />
 		</span>
 		<div class="flex flex-col">
-			<span class="text-lg font-medium text-gray-800 font-nanum">Book a Singing Bowl Session</span>
+			<span class="text-lg font-medium text-gray-800 font-nanum">Book a Session</span>
+			<span class="text-xs text-gray-500">Singing Bowl Therapy 🪷</span>
 		</div>
 	</a>
 

@@ -14,7 +14,6 @@ const login = async ({ cookies, request }: { cookies: Cookies; request: RequestE
     const data = await request.formData();
     const email = data.get('email');
     const password = data.get('password');
-    console.log('email', email);
     if (
         typeof email !== 'string' ||
         typeof password !== 'string' ||
@@ -32,7 +31,7 @@ const login = async ({ cookies, request }: { cookies: Cookies; request: RequestE
     const isValid = await bcrypt.compare(password, user.password);
 
     if (!isValid) {
-        return new Response(JSON.stringify({ error: 'Incorrect password' }), { status: 401 });
+        return fail(400, { credentials: true })
     }
 
     const authenticatedUser = await prisma.user.update({
@@ -40,7 +39,7 @@ const login = async ({ cookies, request }: { cookies: Cookies; request: RequestE
         data: { token: crypto.randomUUID() },
     })
     if (!authenticatedUser.token) {
-        throw new Error('Token is null or undefined');
+        return fail(400, { credentials: true })
     }
 
     cookies.set('session', authenticatedUser.token, {
