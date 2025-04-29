@@ -4,6 +4,8 @@ WORKDIR /app
 
 RUN apt-get update -y && apt-get install -y openssl
 
+ENV ORIGIN=https://theravickya.com
+
 COPY package.json bun.lockb ./
 RUN bun install
 
