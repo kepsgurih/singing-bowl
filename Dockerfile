@@ -8,6 +8,8 @@ ENV VITE_BUILD_MODE=$NODE_ENV
 COPY package.json bun.lockb ./
 RUN bun install
 
+RUN bunx prisma generate
+
 COPY . .
 
 RUN bun run build --mode $VITE_BUILD_MODE
