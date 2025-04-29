@@ -1,7 +1,6 @@
 {
 	"name": "soundhealing-app",
-	"private": true,
-	"version": "0.0.1",
+	"version": "1.0.1",
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
@@ -11,9 +10,7 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json --watch",
 		"lint": "eslint . && prettier --check .",
-		"format": "prettier --write .",
-		"vercel-build": "prisma generate && vite build",
-		"postinstall": "prisma generate"
+		"format": "prettier --write ."
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.2.5",
