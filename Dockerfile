@@ -1,20 +1,23 @@
-# Menggunakan Node.js Alpine untuk tahap build
-FROM node:22-alpine AS builder
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci
-COPY . .
-RUN npm install -g bun
-RUN bun install
-RUN bun build --mode production
-RUN npm prune --production
+FROM node:20-alpine
 
-# Menggunakan Node.js Alpine untuk tahap final
-FROM node:22-alpine
 WORKDIR /app
-COPY --from=builder /app/build build/
-COPY --from=builder /app/node_modules node_modules/
-COPY package.json .
+
+ARG NODE_ENV=production
+ENV VITE_BUILD_MODE=$NODE_ENV
+
+COPY package.json bun.lockb ./
+
+RUN npm install --global bun
+
+RUN bun install
+
+COPY . .
+
+RUN bunx prisma generate
+
+
+RUN bun run build --mode $VITE_BUILD_MODE
+
 EXPOSE 8080
-ENV NODE_ENV=production
-CMD ["bun", "build", "--mode", "production"]
+
+CMD ["bun", "run", "preview"]
