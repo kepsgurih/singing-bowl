@@ -12,7 +12,7 @@ COPY . .
 RUN bunx prisma generate
 
 
-RUN bun run build --mode production
+RUN bun run build
 
 EXPOSE 8080
 
