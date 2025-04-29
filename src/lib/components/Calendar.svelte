@@ -12,7 +12,7 @@
 	dayjs.extend(isSameOrAfter);
 	dayjs.extend(isSameOrBefore);
 	dayjs.extend(customParseFormat);
-	dayjs.locale('id');
+	dayjs.locale('en');
 
 	export let kelasData: {
 		id: string;
@@ -79,7 +79,7 @@
 };
 
 
-	const hari = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
+	const hari = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 	const handleConfirm = (id: string) => {
 		confirmClass.set(id);
@@ -97,7 +97,7 @@
 		>
 			&lt;
 		</button>
-		<h2 class="text-lg font-semibold">{currentDate.format('MMMM YYYY')}</h2>
+		<h2 class="text-lg font-semibold font-kan">{currentDate.locale('en').format('MMMM YYYY')}</h2>
 		<button
 			on:click={nextMonth}
 			disabled={currentDate.isAfter(dayjs().add(1, 'month'))}
@@ -110,7 +110,7 @@
 	<!-- Hari -->
 	<div class="grid grid-cols-7 text-center text-sm font-medium text-gray-600">
 		{#each hari as h, i}
-			<div class="flex items-center justify-center">{h}</div>
+			<div class="flex items-center justify-center font-kan">{h}</div>
 		{/each}
 	</div>
 
@@ -119,7 +119,7 @@
 		{#if !hasKelasThisMonth()}
 			<div class="absolute inset-0 bg-white/80 flex items-center justify-center rounded-lg z-10">
 				<div class="text-center">
-					<p class="text-sm font-semibold">Tidak ada kelas di bulan ini</p>
+					<p class="text-sm font-semibold mx-10 font-kan">Upcoming schedule will be updated soon</p>
 				</div>
 			</div>
 		{/if}

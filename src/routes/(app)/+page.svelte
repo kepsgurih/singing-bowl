@@ -36,7 +36,7 @@
 	alt="Foto Profil"
 	class="w-24 h-24 rounded-full border-4 border-white shadow-lg mt-10 mb-4"
 />
-<h1 class="text-xl font-semibold text-gray-800 mb-1 font-nanum">{data.config.name}</h1>
+<h1 class="text-2xl text-gray-800 mb-1 font-gummy">{data.config.name}</h1>
 <div class="w-full max-w-md px-6 mb-6">
 	<p class="text-sm text-gray-600 text-justify leading-relaxed">
 		{data.config.description}
@@ -52,7 +52,7 @@
 			<img src="/icons/calendar.svg" alt="Calendar" class="w-6 h-6" />
 		</span>
 		<div class="flex flex-col">
-			<span class="text-lg font-medium text-gray-800 font-nanum">Book a Session</span>
+			<span class="text-gray-800 font-gummy">Book a Session</span>
 			<span class="text-xs text-gray-500">Singing Bowl Therapy 🪷</span>
 		</div>
 	</a>
@@ -79,7 +79,7 @@
 				{/if}
 			</span>
 			<div class="flex flex-col">
-				<span class="text-lg font-medium text-gray-800 font-nanum">{link.name}</span>
+				<span class="text-gray-800 font-gummy">{link.name}</span>
 				<span class="text-xs text-gray-500">{link.username}</span>
 			</div>
 		</a>

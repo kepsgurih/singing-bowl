@@ -47,7 +47,7 @@ export const actions = {
                 fullName: fullName as string,
                 phone: phone,
                 role: 'USER',
-                token: "",
+                token: crypto.randomUUID() ,
             }
         });
 

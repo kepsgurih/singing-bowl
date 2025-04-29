@@ -5,7 +5,7 @@
 	import { slide, fade } from 'svelte/transition';
 
 	headerTitle.set({
-		title: 'Schedule',
+		title: 'Services',
 		backUrl: '/'
 	});
 

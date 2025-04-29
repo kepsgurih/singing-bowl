@@ -3,7 +3,7 @@
 	import { goto } from '$app/navigation';
 
 	headerTitle.set({
-        title: 'Successful Payment Confirmation',
+        title: 'Successful Booking Confirmation',
         backUrl: '/schedule'
     });
 
@@ -31,8 +31,10 @@
 </script>
 
 <div class="max-w-md mx-auto p-6 space-y-6">
-	<p class="text-center font-kan">Thank you for entrusting me with your therapy sessions! I'll send over the details to your email and WhatsApp soon.
-		<br />If you have any questions, feel free to reach out via Instagram (@vickyaaa)
-		See you in our session!
-	</p>		
+	<div class="bg-white p-4 rounded-xl shadow space-y-4 border">
+		<p class="text-justify font-kan">Thank you for entrusting me with your therapy sessions! I'll send over the details to your email and WhatsApp soon.
+		</p>
+		<p class="text-justify font-kan">If you have any questions, feel free to reach out via Instagram <span class="italic">@vickyaaa</span>.</p>
+		<p class="text-justify font-kan">See you in our session!. 🪄🌸</p>
+	</div>
 </div>

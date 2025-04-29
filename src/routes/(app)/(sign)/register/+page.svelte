@@ -1,10 +1,12 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
-	import { writable } from 'svelte/store';
-	import type { PageProps } from './$types';
 
-	let { form }:PageProps = $props();
+	interface Form {
+		errorMessage?: string;
+	}
+
+	let { form }: { form: Form } = $props();
 	let loading = $state(false);
 </script>
 
@@ -16,9 +18,7 @@
 			Before you get started let's create your account
 		</p>
 
-		{#if form?.errorMessage}
-		<div class="text-center text-sm font-kan text-red-600 bg-rose-100 py-4 rounded-lg mb-4">{form.errorMessage}</div>
-		{/if}
+		
 
 		<form action="?register" method="POST" use:enhance={() => {
 			loading = true
@@ -98,7 +98,9 @@
 			</div>
 
 			<!-- Phone -->
-
+			{#if form?.errorMessage}
+			<div class="text-center text-sm font-kan text-red-600 bg-rose-100 py-4 rounded-lg mb-4">{form.errorMessage}</div>
+			{/if}
 			<!-- Submit -->
 			<button
 				type="submit"

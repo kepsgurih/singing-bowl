@@ -5,9 +5,10 @@
 	import { page } from '$app/state';
 	import { rupiahFormat } from '$lib/helper/rupiahFormat';
 	import dayjs from 'dayjs';
+	dayjs.locale('en');
 	import { writable } from 'svelte/store';
 
-	export let form
+	export let form;
 	export let data: {
 		calendar: {
 			id: string;
@@ -37,7 +38,7 @@
 	};
 </script>
 
-<div class="max-w-md mx-auto p-6 space-y-6">
+<div class="p-6 space-y-6">
 	<h2 class="text-2xl font-semibold text-gray-800">Confirm Your Session</h2>
 	<div class="bg-white p-4 rounded-xl shadow space-y-2 border">
 		<h3 class="text-lg font-medium text-gray-700">{data.schedule.label}</h3>
@@ -46,17 +47,26 @@
 				<div>{desc}</div>
 			{/each}
 		</div>
-		<p class="text-sm text-gray-600 mt-4">
-			📅 Day, date: <strong
-				>{dayjs(data.calendar.date).format('ddd, D MMM YYYY')} {data.calendar.time}</strong
-			>
-		</p>
-		<p class="text-sm text-gray-600">⏱ Duration: <strong>{data.schedule.duration} min</strong></p>
-		<p class="text-sm text-gray-600">
-			💰 Price: <strong>{rupiahFormat(data.schedule.price)}</strong>
-		</p>
-		<!-- {#if selectedClass.location} -->
-		<p class="text-sm text-gray-600">📍 Location: <strong>{data.calendar.kelas}</strong></p>
+		<div class="flex justify-between text-sm text-gray-600 mt-4">
+			<span>🗓️ Day, date </span>
+			<strong>{dayjs(data.calendar.date).format('dddd, D MMMM YYYY')}</strong>
+		</div>
+		<div class="flex justify-between text-sm text-gray-600">
+			<span>⏰ Time</span>
+			<strong>{data.calendar.time}</strong>
+		</div>
+		<div class="flex justify-between text-sm text-gray-600">
+			<span>⏳ Duration</span>
+			<strong>{data.schedule.duration} min</strong>
+		</div>
+		<div class="flex justify-between text-sm text-gray-600">
+			<span>💳 Energy exchange</span>
+			<strong>{rupiahFormat(data.schedule.price)}</strong>
+		</div>
+		<div class="flex justify-between text-sm text-gray-600">
+			<span>📍 Location</span>
+			<strong>{data.calendar.kelas}</strong>
+		</div>
 	</div>
 	{#if page.data.user}
 		<form
@@ -71,10 +81,11 @@
 				};
 			}}
 		>
-			<div class="text-green-700 bg-green-100 p-4 rounded-lg text-sm mb-4">
+			<div class="text-green-700 bg-green-100 p-4 rounded-lg text-sm mb-4 max-w-md mx-auto">
 				{#if data.schedule.price > 0}
-					Please review the session you've chosen. If everything is correct, select the button
-					below.
+					<div>Please review the session you've chosen.</div>
+					<div>If everything is correct, select the button
+						below.</div>
 				{:else}
 					Tell me why you need this therapy session?
 				{/if}
@@ -92,7 +103,7 @@
 			<button
 				type="submit"
 				disabled={$loading}
-				class="mt-4 w-full block text-center py-3 bg-green-600 hover:bg-green-700 text-white rounded-xl shadow-md transition"
+				class="mt-6 w-full block text-center py-3 bg-green-600 hover:bg-green-700 text-white rounded-xl shadow-md transition"
 			>
 				{$loading ? 'Loading...' : 'Book this session'}
 			</button>
@@ -104,7 +115,7 @@
 		{/if}
 	{:else}
 		<div class="bg-yellow-100 p-4 rounded-lg text-sm text-yellow-700">
-			To proceed, please log in or register your account
+			To proceed, please <strong>Log in</strong> or <strong>Register</strong> your account
 		</div>
 		<div class="flex gap-4">
 			<button
