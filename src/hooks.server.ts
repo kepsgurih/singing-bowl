@@ -18,7 +18,8 @@ export const handle: Handle = async ({ event, resolve }) => {
             fullName: true,
             email: true,
             role: true,
-            phone: true
+            phone: true,
+            ig: true,
         },
     })
 
@@ -29,7 +30,8 @@ export const handle: Handle = async ({ event, resolve }) => {
             fullName: user.fullName,
             email: user.email,
             role: user.role,
-            phone: user.phone
+            phone: user.phone,
+            ig: user.ig??'',
         }
     }
 

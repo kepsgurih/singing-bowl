@@ -36,12 +36,17 @@
 		"vite": "^6.2.5"
 	},
 	"dependencies": {
+		"@friendofsvelte/tipex": "^0.0.8-dev.0",
 		"@prisma/client": "^6.6.0",
 		"@sveltejs/adapter-node": "^5.2.12",
 		"@sveltejs/adapter-vercel": "^5.7.0",
+		"@tiptap/extension-document": "^2.11.7",
 		"@types/toastify-js": "^1.12.3",
+		"add": "^2.0.6",
 		"bcrypt": "^5.1.1",
+		"bun": "^1.2.11",
 		"dayjs": "^1.11.13",
+		"element-tiptap": "^2.2.1",
 		"jsonwebtoken": "^9.0.2",
 		"lucide-svelte": "^0.488.0",
 		"posthog-js": "^1.236.7",

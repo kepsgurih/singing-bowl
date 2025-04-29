@@ -1,42 +1,27 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-  import { onMount } from 'svelte';
-
-  interface ConfigData {
-    name: string;
-    avatar: string;
-    description: string;
+  
+  export let data: {
+    config: {
+      name: string;
+      description: string;
+      avatar: string;
+    };
   }
-
-  let configData: ConfigData | null = null;
-
-  const fetchConfig = async () => {
-    const response = await fetch('/api/setup/setting');
-    const result = await response.json();
-    if (result.success) {
-      configData = result.data;
-    } else {
-      configData = null;
-    }
-  };
-
-  onMount(() => {
-    fetchConfig();
-  });
 </script>
 
-{#if configData}
+{#if data && data.config}
   <div class="max-w-md mx-auto p-8 mt-12 bg-white rounded-3xl shadow-md text-center space-y-6">
     <div>
       <img 
-        src={configData.avatar} 
+        src={data.config.avatar} 
         alt="Avatar" 
         class="w-28 h-28 mx-auto rounded-full object-cover border-4 border-blue-100 shadow-sm"
       />
     </div>
     <div>
-      <h1 class="text-2xl font-bold text-gray-800">{configData.name}</h1>
-      <p class="mt-2 text-gray-600 text-sm">{configData.description}</p>
+      <h1 class="text-2xl font-bold text-gray-800">{data.config.name}</h1>
+      <div class="mt-2 text-gray-600 text-sm">{@html data.config.description}</div>
     </div>
     <button 
     on:click={() => goto('/dashboard/settings/new')} 

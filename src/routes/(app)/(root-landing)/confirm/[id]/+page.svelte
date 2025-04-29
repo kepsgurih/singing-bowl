@@ -61,7 +61,15 @@
 		</div>
 		<div class="flex justify-between text-sm text-gray-600">
 			<span>💳 Energy exchange</span>
-			<strong>{rupiahFormat(data.schedule.price)}</strong>
+			{#if data.schedule.price === 0}
+				<strong>Free</strong>
+			{:else if data.schedule.price === 1}
+				<strong>Free</strong>
+			{:else if data.schedule.price === 123}
+				<strong>Pay as you wish</strong>
+			{:else}
+				<strong>{rupiahFormat(data.schedule.price)}</strong>
+			{/if}
 		</div>
 		<div class="flex justify-between text-sm text-gray-600">
 			<span>📍 Location</span>
@@ -96,6 +104,15 @@
 					disabled={$loading}
 					name="reason"
 					placeholder="Please explain why you need this therapy session"
+					class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-green-300"
+					required
+				></textarea>
+			{/if}
+			{#if data.calendar.kelas === "Home Visit"}
+				<textarea
+					disabled={$loading}
+					name="address"
+					placeholder="Please input your detailed address"
 					class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-green-300"
 					required
 				></textarea>

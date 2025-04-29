@@ -22,10 +22,9 @@ export const actions: Actions = {
       const duration = Number(formData.get('duration'));
       const price = Number(formData.get('price'));
       const groupId = formData.get('groupId') as string;
-      const descriptions = formData.getAll('descriptions') as string[];
-  
-      console.log(label)
-      if (!label || !duration || !groupId || descriptions.length === 0) {
+      const caption = formData.get('caption') as string;
+      
+      if (!label || !duration || !groupId || !caption) {
         return fail(400, { success: false, message: 'Data tidak lengkap' });
       }
   
@@ -35,7 +34,7 @@ export const actions: Actions = {
             duration,
             price: price || 0,
             groupId,
-            description: descriptions,
+            caption,
           }
         });
   

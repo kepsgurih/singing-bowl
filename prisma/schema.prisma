@@ -22,6 +22,7 @@ model User {
   phone    String @unique
   address  String?
   role     RoleList @default(USER)
+  ig      String?
 
   token     String? @unique
   Booked   Booked[]
@@ -55,6 +56,7 @@ model Schedule {
   label    String
   duration Int
   description String[] @default([])
+  caption  String @default("")
   price    Int
   groupId  String        @db.ObjectId
   group    GroupSchedule @relation(fields: [groupId], references: [id])
@@ -81,7 +83,20 @@ model Booked {
   reason     String?
   calendar   Calendar @relation(fields: [calendarId], references: [id])
   userId     String   @db.ObjectId
+  address    String?
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model GuideLines {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+}
+
+model HowTo {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
 }
 
 enum RoleList {

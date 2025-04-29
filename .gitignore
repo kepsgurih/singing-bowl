@@ -12,6 +12,10 @@ node_modules
 .DS_Store
 Thumbs.db
 
+# Env
+.env
+.env*.local
+!.env.example
 
 # Vite
 vite.config.js.timestamp-*

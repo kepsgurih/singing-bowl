@@ -5,11 +5,16 @@ export const load = async () => {
         orderBy: { order: 'asc' }
     });
 
+    const guide = await prisma.guideLines.findFirst();
+    const howTo = await prisma.howTo.findFirst();
+
     const schedules = await prisma.schedule.findMany();
 
     return {
         group,
-        schedules
+        schedules,
+        guide,
+        howTo
     }
 
 
