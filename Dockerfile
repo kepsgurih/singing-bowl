@@ -3,14 +3,14 @@ FROM oven/bun:latest
 WORKDIR /app
 
 ARG NODE_ENV=production
-ENV NODE_ENV $NODE_ENV
+ENV VITE_BUILD_MODE=$NODE_ENV
 
 COPY package.json bun.lockb ./
 RUN bun install
 
 COPY . .
 
-RUN bun run build --mode $NODE_ENV
+RUN bun run build --mode $VITE_BUILD_MODE
 
 EXPOSE 8080
 
