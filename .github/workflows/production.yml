@@ -41,6 +41,6 @@ jobs:
           key: ${{ secrets.SSH_SECRET }}
           script: |
             docker pull ${{ secrets.DOCKER_USERNAME }}/singing-bowl:latest
-            cd /production/svelte
+            cd production/svelte
             docker compose down
             docker compose up -d
