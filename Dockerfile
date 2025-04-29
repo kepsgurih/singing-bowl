@@ -2,8 +2,7 @@ FROM oven/bun:latest
 
 WORKDIR /app
 
-ARG NODE_ENV=production
-ENV VITE_BUILD_MODE=$NODE_ENV
+RUN apt-get update -y && apt-get install -y openssl
 
 COPY package.json bun.lockb ./
 RUN bun install
@@ -13,7 +12,7 @@ COPY . .
 RUN bunx prisma generate
 
 
-RUN bun run build --mode $VITE_BUILD_MODE
+RUN bun run build --mode production
 
 EXPOSE 8080
 
