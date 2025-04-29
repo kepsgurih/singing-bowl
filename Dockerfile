@@ -1,4 +1,4 @@
-FROM oven/bun:latest
+FROM node:20-alpine
 
 WORKDIR /app
 
@@ -6,6 +6,9 @@ ARG NODE_ENV=production
 ENV VITE_BUILD_MODE=$NODE_ENV
 
 COPY package.json bun.lockb ./
+
+RUN npm install --global bun
+
 RUN bun install
 
 COPY . .
