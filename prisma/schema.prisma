@@ -48,6 +48,7 @@ model GroupSchedule {
   id        String     @id @default(auto()) @map("_id") @db.ObjectId
   label     String
   order     Int
+  disable   Boolean   @default(false)
   schedules Schedule[]
 }
 
@@ -60,6 +61,7 @@ model Schedule {
   price    Int
   groupId  String        @db.ObjectId
   group    GroupSchedule @relation(fields: [groupId], references: [id])
+  disable   Boolean   @default(false)
 
   calendars Calendar[]
 }
@@ -69,6 +71,7 @@ model Calendar {
   date   DateTime
   time   String
   kelas  String
+  disable   Boolean   @default(false)
   status CalendarStatus
 
   scheduleId String   @db.ObjectId
@@ -91,12 +94,21 @@ model GuideLines {
   id          String @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String
+  disable   Boolean   @default(false)
 }
 
 model HowTo {
   id          String @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String
+  disable   Boolean   @default(false)
+}
+
+model Blog {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  disable   Boolean   @default(false)
 }
 
 enum RoleList {

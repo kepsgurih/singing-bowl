@@ -5,6 +5,7 @@
   interface IGroup {
     id: string;
     label: string;
+    disable: boolean;
     order: number;
   }
 
@@ -37,7 +38,7 @@
     {#each data.groups as group}
       <div class="flex flex-col md:flex-row items-start md:items-center justify-between p-4 bg-white rounded-lg shadow-sm">
         <div>
-          <p class="font-semibold text-gray-700 text-base md:text-l font-kan">{group.label}</p>
+          <p class="font-semibold text-gray-700 text-base md:text-l font-kan">{group.label} <span class="text-xs font-bold ml-4">{group.disable ? "(Disable)" : ""}</span></p>
         </div>
         <div class="flex gap-2 mt-2 md:mt-0">
           <button 
@@ -54,11 +55,12 @@
             }
           }}>
             <input type="hidden" name="id" value={group.id} />
+            <input type="hidden" name="bool" value={group.disable} />
             <button 
               type="submit"
-              class="bg-rose-600 text-white text-sm md:text-base px-3 py-1 rounded hover:bg-rose-500 transition-colors"
+              class="{group.disable ? "bg-green-600 hover:bg-green-500" : "bg-rose-600 hover:bg-rose-500"} text-white text-sm md:text-base px-3 py-1 rounded transition-colors"
             >
-              Delete
+              {group.disable ? "Enable" : "Disable"}
             </button>
           </form>
         </div>

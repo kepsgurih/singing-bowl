@@ -29,6 +29,10 @@
 			title: string;
 			description: string;
 		};
+		benefits: {
+			title: string;
+			description: string;
+		};
 	};
 
 	let expandedGroups = new Set<string>();
@@ -140,6 +144,10 @@
 		{/if}
 		{#if data.howTo}
 			<button onclick={()=> goto('/direction')} class="bg-transparent w-full py-2 rounded-lg text-blue-500">{data.howTo.title}</button
+			>
+		{/if}
+		{#if data.benefits}
+			<button onclick={()=> goto('/benefit')} class="bg-transparent w-full py-2 rounded-lg text-blue-500">{data.benefits.title}</button
 			>
 		{/if}
 	</div>
