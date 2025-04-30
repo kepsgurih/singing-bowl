@@ -38,10 +38,10 @@ export const actions = {
         const duration = Number(formData.get('duration'));
         const price = Number(formData.get('price'));
         const groupId = formData.get('groupId') as string;
-        const descriptions = formData.getAll('descriptions') as string[];
+        const caption = formData.get('caption') as string;
         // Validasi data yang diperlukan
-        if (!label || !duration || !price || !groupId || descriptions.length === 0) {
-          console.info(label, duration, price, groupId, descriptions);
+        if (!label || !duration || !price || !groupId || !caption) {
+          console.info(label, duration, price, groupId, caption);
         console.log('Data tidak lengkap')
         return fail(400, { success: false, message: 'Data tidak lengkap' });
       }
@@ -52,11 +52,10 @@ export const actions = {
             duration,
             price,
             groupId,
-            description: descriptions, // Perbarui deskripsi
+            caption,
           },
         });
-  
-        // Redirect ke halaman setelah update
+        
         return redirect(303, '/dashboard/schedules');
       }
   };

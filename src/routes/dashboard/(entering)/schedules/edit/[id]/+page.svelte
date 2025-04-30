@@ -1,4 +1,5 @@
 <script lang="ts">
+	import RichTextEditor from '$lib/components/RichTextEditor.svelte';
   import { writable } from 'svelte/store';
 
   export let data: {
@@ -8,23 +9,17 @@
       duration: number;
       price: number;
       groupId: string;
-      description: string[];  // Array deskripsi
+      caption: string;  // Array deskripsi
     };
     groups: any[];
   };
 
   // Gunakan writable store untuk menyimpan deskripsi
-  const descriptions = writable(data.schedule.description);
-
-  // Fungsi untuk menambah deskripsi baru ke store
-  const addDescription = () => {
-    descriptions.update((descList) => [...descList, ""]); // Menambah elemen kosong untuk deskripsi baru
-  };
-
-  // Fungsi untuk menghapus deskripsi berdasarkan index
-  const removeDescription = (index: number) => {
-    descriptions.update((descList) => descList.filter((_, i) => i !== index)); // Menghapus deskripsi dari store
-  };
+  let descriptionText = data.schedule.caption || '';  
+  
+  function handleDescriptionChange(event: CustomEvent) {
+    descriptionText = event.detail.value;
+  }
 </script>
 
 <div class="w-full p-4 md:p-6 lg:p-8">
@@ -87,36 +82,22 @@
         </select>
       </div>
 
+     
       <div class="space-y-4">
-        <label for="description-0" class="block mb-2 text-sm font-medium">Descriptions</label>
-
-        {#each $descriptions as desc, index}
-          <div class="flex gap-2 items-center">
-            <input
-              type="text"
-              name="descriptions" 
-              class="flex-1 p-3 border rounded-lg bg-gray-50"
-              placeholder="Deskripsi Schedule"
-              bind:value={$descriptions[index]}
-              required
-            />
-            <button 
-              type="button" 
-              class="bg-rose-500 text-white px-3 py-2 rounded-lg hover:bg-rose-600"
-              on:click={() => removeDescription(index)}
-            >
-              Hapus
-            </button>
-          </div>
-        {/each}
-
-        <button 
-          type="button" 
-          class="mt-2 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600"
-          on:click={addDescription}
-        >
-          + Tambah Deskripsi
-        </button>
+        <label for="descriptions" class="block mb-2 text-sm font-medium">Descriptions</label>
+        
+        <RichTextEditor
+           value={descriptionText} 
+           placeholder="Write a short description"
+           minHeight="120px"
+           on:change={handleDescriptionChange}
+         />
+         <textarea 
+         id="caption" 
+         name="caption" 
+         value={descriptionText} 
+         class="hidden"
+       ></textarea>
       </div>
 
       <button 

@@ -89,15 +89,7 @@
 				};
 			}}
 		>
-			<div class="text-green-700 bg-green-100 p-4 rounded-lg text-sm mb-4 max-w-md mx-auto">
-				{#if data.schedule.price > 0}
-					<div>Please review the session you've chosen.</div>
-					<div>If everything is correct, select the button
-						below.</div>
-				{:else}
-					Tell me why you need this therapy session?
-				{/if}
-			</div>
+			
 			<input type="hidden" name="id" value={data.calendar.id} />
 			{#if data.schedule.price === 0}
 				<textarea
@@ -113,10 +105,15 @@
 					disabled={$loading}
 					name="address"
 					placeholder="Please input your detailed address"
-					class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-green-300"
+					class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-green-300 font-kan"
 					required
 				></textarea>
 			{/if}
+			<div class="text-green-700 bg-green-100 p-4 rounded-lg text-sm my-4 max-w-md mx-auto">
+				<div>Please review the session you've chosen.</div>
+				<div>If everything is correct, select the button
+					below.</div>
+		</div>
 			<button
 				type="submit"
 				disabled={$loading}

@@ -15,7 +15,7 @@
 			id: string;
 			groupId: string;
 			label: string;
-			duration: string;
+			duration: number;
 			caption: string;
 			price: string;
 			description: string[];
@@ -69,7 +69,7 @@
 				onclick={() => toggleGroup(g.id)}
 				aria-expanded={expandedGroups.has(g.id)}
 			>
-				<h2 class="text-xl font-semibold text-gray-700 font-kan">{g.label}</h2>
+				<h2 class="text-xl text-gray-700 font-gummy text-left">{g.label}</h2>
 
 				<span class="text-gray-400">{expandedGroups.has(g.id) ? '▲' : '▼'}</span>
 			</button>
@@ -91,7 +91,15 @@
 											onclick={() => goto('/calendar/' + s.id)}
 											class="flex gap-4 text-xs text-gray-500"
 										>
-											<span>{s.duration} min</span>
+											<span>
+												{#if s.duration >= 10000}
+													{Math.floor(s.duration / 1000)} - {s.duration % 1000} min
+												{:else if s.duration >= 1000}
+													{Math.floor(s.duration / 100)} - {s.duration % 100} min
+												{:else}
+													{s.duration} mins
+												{/if}
+											</span>
 											|
 											<span
 												>{Number(s.price) === 0 || Number(s.price) === 1
@@ -111,7 +119,7 @@
 								</div>
 
 								{#if expandedSchedules.has(s.label)}
-									<div>{@html s.caption}</div>
+									<div class="mt-2 font-kan text-gray-500 text-xs">{@html s.caption}</div>
 								{/if}
 							</div>
 
