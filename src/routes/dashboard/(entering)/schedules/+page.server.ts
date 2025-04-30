@@ -18,15 +18,32 @@ export const actions = {
   delete: async ({ request }) => {
     const formData = await request.formData();
     const id = formData.get('id') as string;
-
+    const bool = formData.get('bool') === 'true';
     if (!id) {
       return fail(400, { message: 'ID tidak ditemukan' });
     }
 
-    await prisma.schedule.delete({
+    // Check if the schedule exists
+    const schedule = await prisma.schedule.findUnique({
       where: { id }
     });
+    if (!schedule) {
+      console.log('Schedule not found');
+      return fail(404, { message: 'Schedule tidak ditemukan' });
+    }
 
-    return { success: true };
+    console.log('Schedule found:', bool);
+
+    await prisma.schedule.update({
+      where: { id },
+      data: {
+        disable: bool ? false : true
+      }
+    });
+
+    return {
+      success: true,
+      message: 'Schedule berhasil diupdate'
+    }
   }
 };

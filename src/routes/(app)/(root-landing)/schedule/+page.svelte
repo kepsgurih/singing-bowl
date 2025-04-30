@@ -9,19 +9,31 @@
 		backUrl: '/'
 	});
 
-
 	export let data: {
 		group: Array<{ label: string; id: string }>;
 		schedules: Array<{
-			id : string;
+			id: string;
 			groupId: string;
 			label: string;
-			duration: string;
+			duration: number;
+			caption: string;
 			price: string;
 			description: string[];
 			link: string;
 		}>;
-	}
+		guide: {
+			title: string;
+			description: string;
+		};
+		howTo: {
+			title: string;
+			description: string;
+		};
+		benefits: {
+			title: string;
+			description: string;
+		};
+	};
 
 	let expandedGroups = new Set<string>();
 	let expandedSchedules = new Set<string>();
@@ -41,8 +53,14 @@
 
 <svelte:head>
 	<title>Schedule - Singing Bowl Therapy</title>
-	<meta name="description" content="Explore our schedule for Singing Bowl Therapy sessions. Find the perfect time to relax and rejuvenate with our tailored programs for adults, kids, and groups." />
-	<meta name="keywords" content="Singing Bowl Therapy, Meditation Schedule, Relaxation, Sound Healing, Group Meditation, Kids Meditation" />
+	<meta
+		name="description"
+		content="Explore our schedule for Singing Bowl Therapy sessions. Find the perfect time to relax and rejuvenate with our tailored programs for adults, kids, and groups."
+	/>
+	<meta
+		name="keywords"
+		content="Singing Bowl Therapy, Meditation Schedule, Relaxation, Sound Healing, Group Meditation, Kids Meditation"
+	/>
 </svelte:head>
 
 <div class="w-full max-w-md flex flex-col gap-8 p-6 mx-auto">
@@ -52,11 +70,11 @@
 			<button
 				type="button"
 				class="flex items-center justify-between w-full cursor-pointer"
-				on:click={() => toggleGroup(g.id)}
+				onclick={() => toggleGroup(g.id)}
 				aria-expanded={expandedGroups.has(g.id)}
 			>
-				<h2 class="text-xl font-semibold text-gray-700 font-kan">{g.label}</h2>
-				
+				<h2 class="text-xl text-gray-700 font-gummy text-left">{g.label}</h2>
+
 				<span class="text-gray-400">{expandedGroups.has(g.id) ? '▲' : '▼'}</span>
 			</button>
 
@@ -64,39 +82,52 @@
 			{#if expandedGroups.has(g.id)}
 				<div in:slide out:slide>
 					<div class="flex flex-col border rounded-xl overflow-hidden">
-						{#each data.schedules.filter(s => s.groupId === g.id) as s, i (s.label)}
+						{#each data.schedules.filter((s) => s.groupId === g.id) as s, i (s.label)}
 							<div class="bg-white p-4 md:p-5 hover:bg-gray-50 transition">
 								<div class="flex justify-between items-start">
 									<div class="flex flex-col gap-1 w-full">
 										<!-- Title -->
-										<button on:click={() => goto('/calendar/'+s.id)} class="text-left w-full">
+										<button onclick={() => goto('/calendar/' + s.id)} class="text-left w-full">
 											<div class="text-base font-medium text-gray-800">{s.label}</div>
 										</button>
 										<!-- Duration & Price -->
-										<button on:click={() => goto('/calendar/'+s.id)}  class="flex gap-4 text-xs text-gray-500">
-											<span>{s.duration} min</span>
+										<button
+											onclick={() => goto('/calendar/' + s.id)}
+											class="flex gap-4 text-xs text-gray-500"
+										>
+											<span>
+												{#if s.duration >= 10000}
+													{Math.floor(s.duration / 1000)} - {s.duration % 1000} min
+												{:else if s.duration >= 1000}
+													{Math.floor(s.duration / 100)} - {s.duration % 100} min
+												{:else}
+													{s.duration} mins
+												{/if}
+											</span>
 											|
-											<span>{s.price ? rupiahFormat(Number(s.price)) : 'Free'}</span>
+											<span
+												>{Number(s.price) === 0 || Number(s.price) === 1
+													? 'Free'
+													: Number(s.price) === 123
+														? 'Pay as you wish'
+														: rupiahFormat(Number(s.price))}</span
+											>
 										</button>
 									</div>
 									<button
-										on:click={() => toggleSchedule(s.label)}
+										onclick={() => toggleSchedule(s.label)}
 										class="text-rose-500 text-xs hover:underline mt-1 ml-4"
 									>
-										{expandedSchedules.has(s.label) ? 'Tutup' : 'Detail'}
+										{expandedSchedules.has(s.label) ? 'Close' : 'Detail'}
 									</button>
 								</div>
 
 								{#if expandedSchedules.has(s.label)}
-									<ul in:fade out:fade class="mt-3 space-y-1 text-gray-600 text-sm list-disc list-inside pl-2">
-										{#each s.description as point}
-											<div>{point}</div>
-										{/each}
-									</ul>
+									<div class="mt-2 font-kan text-gray-500 text-xs">{@html s.caption}</div>
 								{/if}
 							</div>
 
-							{#if i < data.schedules.filter(s => s.groupId === g.id).length - 1}
+							{#if i < data.schedules.filter((s) => s.groupId === g.id).length - 1}
 								<hr class="border-t border-gray-200" />
 							{/if}
 						{/each}
@@ -105,4 +136,19 @@
 			{/if}
 		</div>
 	{/each}
+
+	<div class="mt-8">
+		{#if data.guide}
+			<button onclick={()=> goto('/guide')} class="bg-transparent w-full py-2 rounded-lg text-blue-500">{data.guide.title}</button
+			>
+		{/if}
+		{#if data.howTo}
+			<button onclick={()=> goto('/direction')} class="bg-transparent w-full py-2 rounded-lg text-blue-500">{data.howTo.title}</button
+			>
+		{/if}
+		{#if data.benefits}
+			<button onclick={()=> goto('/benefit')} class="bg-transparent w-full py-2 rounded-lg text-blue-500">{data.benefits.title}</button
+			>
+		{/if}
+	</div>
 </div>

@@ -53,6 +53,8 @@
 					required
 				/>
 			</div>
+
+			
 			<!-- Email -->
 			<div class="mb-5">
 				<label for="password" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
@@ -62,6 +64,18 @@
 					name="email"
 					disabled={loading}
 					placeholder="john.doe@gmail.com"
+					class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+					required
+				/>
+			</div>
+
+			<div class="mb-5">
+				<label for="instagram" class="block mb-2 text-sm font-medium text-gray-900">Instagram <span class="italic">{'(Optional)'}</span></label>
+				<input
+					id="instagram"
+					type="text"
+					name="ig"
+					disabled={loading}
 					class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
 					required
 				/>

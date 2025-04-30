@@ -5,8 +5,19 @@ export const load = async ({ locals }) => {
     const links = await prisma.linkTree.findMany()
     if (!config || !links) {
         return {
-            config: null,
-            links: [],
+            config: {
+                name: '',
+                description: '',
+                avatar: 'https://dummyimage.com/600x400/000/fff',
+            },
+            links: [
+                {
+                    name: 'Data Not Found',
+                    url: '#',
+                    icon: 'youtube',
+                    username: 'Data Not Found',
+                },
+            ],
         }
     }
     return{

@@ -10,7 +10,16 @@
 		TreePine,
 		X,
 		CalendarCheck,
-		BookCheckIcon
+		BookCheckIcon,
+
+		CarFront,
+
+		BookMarked,
+
+		Sticker
+
+
+
 	} from 'lucide-svelte';
 
 	let { children } = $props();
@@ -22,8 +31,11 @@
 		{ icon: CalendarCheck, label: 'Class Schedule', link: '/dashboard/schedules' },
 		{ icon: CalendarHeart, label: 'Class List', link: '/dashboard/calendars' },
 		{ icon: TreePine, label: 'Tree', link: '/dashboard/tree' },
+		{ icon: BookCheckIcon, label: 'Booked', link: '/dashboard/book' },
+		{icon: CarFront, label: 'Direction', link: '/dashboard/direction' },
+		{ icon: BookMarked, label: 'Guide', link: '/dashboard/guideLine' },
+		{ icon: Sticker, label: 'Benefits', link: '/dashboard/benefit' },
 		{ icon: Settings, label: 'Settings', link: '/dashboard/settings' },
-		{ icon: BookCheckIcon, label: 'Book', link: '/dashboard/book' }
 	];
 </script>
 

@@ -15,7 +15,7 @@
 </script>
 
 <svelte:head>
-	<title>Links - Connect with Vicky</title>
+	<title>Links - Connect with Vickya</title>
 	<meta
 		name="description"
 		content="Connect with Vicky and explore all important links including Instagram, LinkedIn, GitHub, and personal website. Book a Singing Bowl Session and discover more!"
@@ -38,8 +38,8 @@
 />
 <h1 class="text-2xl text-gray-800 mb-1 font-gummy">{data.config.name}</h1>
 <div class="w-full max-w-md px-6 mb-6">
-	<p class="text-sm text-gray-600 text-justify leading-relaxed">
-		{data.config.description}
+	<p class="text-sm text-gray-600 text-center leading-relaxed">
+		{@html data.config.description}
 	</p>
 </div>
 

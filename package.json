@@ -1,7 +1,6 @@
 {
 	"name": "soundhealing-app",
-	"private": true,
-	"version": "0.0.1",
+	"version": "1.0.1",
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
@@ -11,9 +10,7 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json --watch",
 		"lint": "eslint . && prettier --check .",
-		"format": "prettier --write .",
-		"vercel-build": "prisma generate && vite build",
-		"postinstall": "prisma generate"
+		"format": "prettier --write ."
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.2.5",
@@ -39,16 +36,21 @@
 		"vite": "^6.2.5"
 	},
 	"dependencies": {
+		"@friendofsvelte/tipex": "^0.0.8-dev.0",
 		"@prisma/client": "^6.6.0",
+		"@sveltejs/adapter-node": "^5.2.12",
 		"@sveltejs/adapter-vercel": "^5.7.0",
+		"@tiptap/extension-document": "^2.11.7",
 		"@types/toastify-js": "^1.12.3",
+		"add": "^2.0.6",
 		"bcrypt": "^5.1.1",
+		"bun": "^1.2.11",
 		"dayjs": "^1.11.13",
+		"element-tiptap": "^2.2.1",
 		"jsonwebtoken": "^9.0.2",
 		"lucide-svelte": "^0.488.0",
 		"posthog-js": "^1.236.7",
 		"prisma": "^6.6.0",
-		"svelte-toasts": "^1.1.2",
 		"toastify-js": "^1.12.0",
 		"zod": "^3.24.3"
 	}

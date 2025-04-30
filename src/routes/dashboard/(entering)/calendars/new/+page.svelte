@@ -21,9 +21,13 @@
       </div>
   
       <div>
-        <label for="kelas" class="block mb-2 text-sm font-medium">Kelas</label>
-        <input name="kelas" id="kelas" type="text"  placeholder="Nama Kelas" class="w-full p-3 border rounded-lg" required />
+        <label for="kelas" class="block mb-2 text-sm font-medium">Location</label>
+        <select name="kelas" id="kelas" class="w-full p-3 border rounded-lg">
+            <option value="Harvest City">Harvest City</option>
+            <option value="Home Visit">Home Visit</option>
+            <option value="Online">Online</option>
       </div>
+      
   
       <div>
         <label for="status" class="block mb-2 text-sm font-medium">Status</label>
@@ -36,7 +40,7 @@
   
       <div>
         <label for="schedule" class="block mb-2 text-sm font-medium">Pilih Schedule</label>
-        <select name="scheduleId" id="schedule" class="w-full p-3 border rounded-lg" required>
+        <select name="scheduleId" id="schedule" class="w-full p-3 border rounded-lg" required multiple>
           <option value="" disabled selected>Pilih Schedule</option>
           {#each data.schedules as schedule}
             <option value={schedule.id}>{schedule.group.label} - {schedule.label} </option>

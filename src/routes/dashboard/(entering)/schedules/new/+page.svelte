@@ -1,10 +1,18 @@
 <script lang="ts">
+	import RichTextEditor from "$lib/components/RichTextEditor.svelte";
+
   export let data: {
     groups: {
       id: string;
       label: string;
     }[];
   };
+
+  let descriptionText = '';
+  
+  function handleDescriptionChange(event: CustomEvent) {
+    descriptionText = event.detail.value;
+  }
 </script>
 
 <div class="w-full p-4 md:p-6 lg:p-8">
@@ -66,35 +74,18 @@
       <div class="space-y-4">
         <label for="descriptions" class="block mb-2 text-sm font-medium">Descriptions</label>
         
-        <div id="descriptions-list" class="space-y-4">
-          <div class="flex gap-2 items-center">
-            <input
-              type="text"
-              id="descriptions" 
-              name="descriptions"
-              class="flex-1 p-3 border rounded-lg bg-gray-50"
-              placeholder="Deskripsi Schedule"
-              required
-            />
-          </div>
-        </div>
-
-        <button 
-          type="button" 
-          on:click={() => {
-            const list = document.getElementById('descriptions-list')!;
-            const div = document.createElement('div');
-            div.className = 'flex gap-2 items-center';
-            div.innerHTML = `
-              <input type="text" name="descriptions" class="flex-1 p-3 border rounded-lg bg-gray-50" placeholder="Deskripsi Schedule" required />
-              <button type="button" class="bg-rose-500 text-white px-3 py-2 rounded-lg hover:bg-rose-600" onclick="this.parentElement.remove()">Hapus</button>
-            `;
-            list.appendChild(div);
-          }}
-          class="mt-2 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600"
-        >
-          + Tambah Deskripsi
-        </button>
+        <RichTextEditor
+           value={descriptionText} 
+           placeholder="Write a short description"
+           minHeight="120px"
+           on:change={handleDescriptionChange}
+         />
+         <textarea 
+         id="caption" 
+         name="caption" 
+         value={descriptionText} 
+         class="hidden"
+       ></textarea>
       </div>
 
       <button 

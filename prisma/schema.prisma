@@ -6,6 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-3.0.x", "linux-musl-openssl-3.0.x"]
 }
 
 datasource db {
@@ -21,6 +22,7 @@ model User {
   phone    String @unique
   address  String?
   role     RoleList @default(USER)
+  ig      String?
 
   token     String? @unique
   Booked   Booked[]
@@ -46,6 +48,7 @@ model GroupSchedule {
   id        String     @id @default(auto()) @map("_id") @db.ObjectId
   label     String
   order     Int
+  disable   Boolean   @default(false)
   schedules Schedule[]
 }
 
@@ -54,9 +57,11 @@ model Schedule {
   label    String
   duration Int
   description String[] @default([])
+  caption  String @default("")
   price    Int
   groupId  String        @db.ObjectId
   group    GroupSchedule @relation(fields: [groupId], references: [id])
+  disable   Boolean   @default(false)
 
   calendars Calendar[]
 }
@@ -66,6 +71,7 @@ model Calendar {
   date   DateTime
   time   String
   kelas  String
+  disable   Boolean   @default(false)
   status CalendarStatus
 
   scheduleId String   @db.ObjectId
@@ -80,7 +86,29 @@ model Booked {
   reason     String?
   calendar   Calendar @relation(fields: [calendarId], references: [id])
   userId     String   @db.ObjectId
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  address    String?
+  user       User     @relation(fields: [userId], references: [id])
+}
+
+model GuideLines {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  disable   Boolean   @default(false)
+}
+
+model HowTo {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  disable   Boolean   @default(false)
+}
+
+model Blog {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  disable   Boolean   @default(false)
 }
 
 enum RoleList {

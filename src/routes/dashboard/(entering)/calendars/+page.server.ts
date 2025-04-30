@@ -1,8 +1,9 @@
 import prisma from "$lib/config/prisma"
-import { redirect } from "@sveltejs/kit"
+import { fail, redirect } from "@sveltejs/kit"
 
 export const load = async () => {
     const calendar = await prisma.calendar.findMany({
+        orderBy: { date: 'asc' },
         include: {
             schedule: true,
         }
@@ -16,14 +17,34 @@ export const load = async () => {
 export const actions = {
     default: async ({ request }) => {
         const formData = await request.formData()
-        const id = formData.get('id')
-        if (id) {
-            await prisma.calendar.delete({
-                where: {
-                    id: id.toString()
-                }
+        const id = formData.get('id') as string | null
+        if (!id) {
+            return fail(400, {
+                message: 'ID is required'
             })
         }
-        redirect(303, '/dashboard/calendars')
+        const bool = formData.get('bool') === 'true'
+        const calendar = await prisma.calendar.findUnique({
+            where: {
+                id
+            }
+        })
+        if (!calendar) {
+            return fail(404, {
+                message: 'Calendar not found'
+            })
+        }
+        await prisma.calendar.update({
+            where:{id},
+            data: {
+                disable: bool ? false : true
+            }
+        })
+        
+        
+        return {
+            success: true,
+            message: 'Calendar updated successfully'
+        }
     }
 }

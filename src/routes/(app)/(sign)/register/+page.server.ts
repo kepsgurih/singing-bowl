@@ -11,6 +11,7 @@ export const actions = {
         const confirmPassword = formData.get('confirmPassword');
         const phone = formData.get('phone') as string;
         const fullName = formData.get('fullName');
+        const ig = formData.get('ig');
 
         if (!email || !password || !fullName || !phone || !confirmPassword) {
             return fail(400, { errorMessage: 'All fields are required' });
@@ -47,6 +48,7 @@ export const actions = {
                 fullName: fullName as string,
                 phone: phone,
                 role: 'USER',
+                ig: ig?.toString() ?? "",
                 token: crypto.randomUUID() ,
             }
         });
