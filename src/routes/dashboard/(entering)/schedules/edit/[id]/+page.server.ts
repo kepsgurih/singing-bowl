@@ -40,7 +40,7 @@ export const actions = {
         const groupId = formData.get('groupId') as string;
         const caption = formData.get('caption') as string;
         // Validasi data yang diperlukan
-        if (!label || !duration || !price || !groupId || !caption) {
+        if (!label || !duration || !groupId || !caption) {
           console.info(label, duration, price, groupId, caption);
         console.log('Data tidak lengkap')
         return fail(400, { success: false, message: 'Data tidak lengkap' });
@@ -50,7 +50,7 @@ export const actions = {
           data: {
             label,
             duration,
-            price,
+            price: price ?? 0,
             groupId,
             caption,
           },
