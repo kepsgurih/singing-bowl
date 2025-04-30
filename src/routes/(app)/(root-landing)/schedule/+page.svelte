@@ -138,16 +138,22 @@
 	{/each}
 
 	<div class="mt-8">
+		{#if data.benefits}
+			<button
+				onclick={() => goto('/benefit')}
+				class="bg-transparent w-full py-2 rounded-lg text-blue-500">{data.benefits.title}</button
+			>
+		{/if}
 		{#if data.guide}
-			<button onclick={()=> goto('/guide')} class="bg-transparent w-full py-2 rounded-lg text-blue-500">{data.guide.title}</button
+			<button
+				onclick={() => goto('/guide')}
+				class="bg-transparent w-full py-2 rounded-lg text-blue-500">{data.guide.title}</button
 			>
 		{/if}
 		{#if data.howTo}
-			<button onclick={()=> goto('/direction')} class="bg-transparent w-full py-2 rounded-lg text-blue-500">{data.howTo.title}</button
-			>
-		{/if}
-		{#if data.benefits}
-			<button onclick={()=> goto('/benefit')} class="bg-transparent w-full py-2 rounded-lg text-blue-500">{data.benefits.title}</button
+			<button
+				onclick={() => goto('/direction')}
+				class="bg-transparent w-full py-2 rounded-lg text-blue-500">{data.howTo.title}</button
 			>
 		{/if}
 	</div>
