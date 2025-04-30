@@ -84,7 +84,7 @@ model Booked {
   calendar   Calendar @relation(fields: [calendarId], references: [id])
   userId     String   @db.ObjectId
   address    String?
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id])
 }
 
 model GuideLines {
