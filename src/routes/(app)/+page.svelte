@@ -15,7 +15,7 @@
 </script>
 
 <svelte:head>
-	<title>Links - Connect with Vicky</title>
+	<title>Links - Connect with Vickya</title>
 	<meta
 		name="description"
 		content="Connect with Vicky and explore all important links including Instagram, LinkedIn, GitHub, and personal website. Book a Singing Bowl Session and discover more!"
