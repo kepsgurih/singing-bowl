@@ -99,6 +99,14 @@ export const actions: Actions = {
             <b>Class:</b> ${schedule.label}
             <b>Date:</b> ${formattedDate}
             <b>Time:</b> ${calendar.time}
+            <b>Location:</b> ${calendar.kelas}
+            <b>Price:</b> ${
+            schedule.price === 0 
+                ? 'Free' 
+                : schedule.price === 123 
+                ? 'Pay as you wish' 
+                : `Rp ${schedule.price.toLocaleString('id-ID')}`
+            }
             ${reason ? `<b>Reason:</b> ${reason}` : ''}
             ${calendar.kelas === 'Home Visit' ? `<b>Address:</b> ${address}` : ''}
 

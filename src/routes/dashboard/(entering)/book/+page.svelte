@@ -18,6 +18,7 @@
             <tr>
               <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Class</th>
               <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+              <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
               <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Full Name</th>
               <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone</th>
               <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Reason</th>
@@ -28,7 +29,16 @@
             {#each data.book as booking}
               <tr class="hover:bg-gray-50 transition-colors">
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{booking.calendar.schedule.label}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{booking.calendar.schedule.price ? rupiahFormat(booking.calendar.schedule.price): 'Free'}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  {#if booking.calendar.schedule.price === 0}
+                  Free
+                  {:else if booking.calendar.schedule.price === 123}
+                  Pay as you wish
+                  {:else}
+                  {rupiahFormat(booking.calendar.schedule.price)}
+                  {/if}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{booking.calendar.kelas}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{booking.user.fullName}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{booking.user.phone || 'N/A'}</td>
                 <td class="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">{booking.reason || '-'}</td>

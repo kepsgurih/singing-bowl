@@ -72,7 +72,7 @@
 
     <!-- Mobile Card View (visible on small screens) -->
     <div class="grid grid-cols-1 gap-4 sm:hidden font-kan">
-      {#each data.calendar as c}
+      {#each filteredCalendars as c}
         <div class="{c.disable? "bg-rose-300 border-rose-200": "bg-white border-gray-100"} rounded-xl shadow-sm overflow-hidden border">
           <div class="p-4 border-b {c.disable ? "border-rose-800 bg-rose-600 text-white" :"border-gray-100 bg-gray-50 text-gray-500"} flex justify-between items-center">
             <div>
@@ -120,7 +120,7 @@
         </div>
       {/each}
       
-      {#if data.calendar.length === 0}
+      {#if filteredCalendars.length === 0}
         <div class="bg-white rounded-xl shadow-sm p-8 text-center">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -194,7 +194,7 @@
       </div>
       
       <!-- Empty State -->
-      {#if data.calendar.length === 0}
+      {#if filteredCalendars.length === 0}
         <div class="flex flex-col items-center justify-center py-12 px-6 text-center">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
