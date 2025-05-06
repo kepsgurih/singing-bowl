@@ -28,7 +28,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/singing-bowl:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/singing-bowl:beta-latest
           build-args: |
             NODE_ENV=production
 
@@ -40,7 +40,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_SECRET }}
           script: |
-            docker pull ${{ secrets.DOCKER_USERNAME }}/singing-bowl:latest
-            cd production/svelte
+            docker pull ${{ secrets.DOCKER_USERNAME }}/singing-bowl:beta-latest
+            cd beta/svelte
             docker compose down
             docker compose up -d
