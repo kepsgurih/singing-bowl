@@ -1,7 +1,5 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
-  import { page } from '$app/stores';
   import { ChevronLeftIcon, ChevronRightIcon, PlusIcon } from 'lucide-svelte';
   
   interface Calendar {
@@ -159,22 +157,22 @@
         </div>
       {/each}
       
-      {#if filteredCalendars.length === 0}
-        <div class="bg-white rounded-xl shadow-sm p-8 text-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
-          <h3 class="text-lg font-medium text-gray-900">Belum ada calendar</h3>
-          <p class="mt-1 text-sm text-gray-500">Mulai dengan menambahkan jadwal baru</p>
-          <button
-            on:click={() => goto('/dashboard/calendars/new')}
-            class="mt-4 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 shadow-sm transition-all duration-200 text-sm font-medium"
-          >
-            Tambah Calendar
-          </button>
-        </div>
-      {/if}
     </div>
+    {#if filteredCalendars.length === 0}
+      <div class="bg-white rounded-xl shadow-sm p-8 text-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+        <h3 class="text-lg font-medium text-gray-900">Belum ada calendar</h3>
+        <p class="mt-1 text-sm text-gray-500">Mulai dengan menambahkan jadwal baru</p>
+        <button
+          on:click={() => goto('/dashboard/calendars/new')}
+          class="mt-4 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 shadow-sm transition-all duration-200 text-sm font-medium"
+        >
+          Tambah Calendar
+        </button>
+      </div>
+    {/if}
 
     <!-- Table View (visible on larger screens) -->
     <div class="hidden sm:block overflow-hidden rounded-xl shadow-md bg-white font-kan">
@@ -281,22 +279,5 @@
       </div>
     </div>
   </div>
-      
-      <!-- Empty State -->
-      {#if filteredCalendars.length === 0}
-        <div class="flex flex-col items-center justify-center py-12 px-6 text-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
-          <h3 class="text-lg font-medium text-gray-900">Belum ada calendar</h3>
-          <p class="mt-1 text-sm text-gray-500">Mulai dengan menambahkan jadwal baru</p>
-          <button
-            on:click={() => goto('/dashboard/calendars/new')}
-            class="mt-4 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 shadow-sm transition-all duration-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
-          >
-            <PlusIcon class="h-5 w-5" /> New Event
-          </button>
-        </div>
-      {/if}
     </div>
 
