@@ -20,8 +20,6 @@ export const load = async ({ fetch, params }) => {
     orderBy: { order: 'asc' },
   });
 
-  console.log('schedule', schedule);
-
   return {
     schedule, // Kembalikan data schedule beserta deskripsinya
     groups,
@@ -29,8 +27,7 @@ export const load = async ({ fetch, params }) => {
 };
 
 export const actions = {
-    update: async ({ request, params }) => {
-        console.log('update1')
+    default: async ({ request, params }) => {
         const formData = await request.formData();
         
         // Ambil data dari form
@@ -39,10 +36,9 @@ export const actions = {
         const price = Number(formData.get('price'));
         const groupId = formData.get('groupId') as string;
         const caption = formData.get('caption') as string;
+        const isGroup = formData.get('isGroup') === 'true';
         // Validasi data yang diperlukan
         if (!label || !duration || !groupId || !caption) {
-          console.info(label, duration, price, groupId, caption);
-        console.log('Data tidak lengkap')
         return fail(400, { success: false, message: 'Data tidak lengkap' });
       }
         await prisma.schedule.update({
@@ -53,10 +49,10 @@ export const actions = {
             price: price ?? 0,
             groupId,
             caption,
+            isGroup: isGroup ? true : false,
           },
         });
-        
-        return redirect(303, '/dashboard/schedules');
+          return redirect(303, '/dashboard/schedules');
       }
   };
 

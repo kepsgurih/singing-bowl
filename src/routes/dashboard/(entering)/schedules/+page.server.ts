@@ -32,8 +32,6 @@ export const actions = {
       return fail(404, { message: 'Schedule tidak ditemukan' });
     }
 
-    console.log('Schedule found:', bool);
-
     await prisma.schedule.update({
       where: { id },
       data: {

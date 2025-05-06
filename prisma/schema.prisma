@@ -58,6 +58,7 @@ model Schedule {
   duration Int
   description String[] @default([])
   caption  String @default("")
+  isGroup  Boolean  @default(false)
   price    Int
   groupId  String        @db.ObjectId
   group    GroupSchedule @relation(fields: [groupId], references: [id])

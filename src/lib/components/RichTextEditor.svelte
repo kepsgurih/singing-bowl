@@ -6,6 +6,7 @@
 	export let value: string = '';
 	export let placeholder: string = 'Write something...';
 	export let minHeight: string = '120px';
+	export let disabled: boolean = false;
 
 	// Dispatcher untuk events
 	const dispatch = createEventDispatcher();
@@ -50,17 +51,17 @@
 					range.insertNode(divElement);
 				}
 				break;
-        case 'outdent':
-  const outdentAmount = '20px';
-  const parentElementOutdent = selection.focusNode?.parentElement;
-  if (parentElementOutdent) {
-    const currentMargin = parseInt(parentElementOutdent.style.marginLeft || '0', 10);
-    const newMargin = Math.max(0, currentMargin - parseInt(outdentAmount, 10)); // Jangan sampai negatif
-    parentElementOutdent.style.marginLeft = newMargin + 'px';
-	// Tetap masukkan konten yang dipilih untuk menjaga seleksi
-  }
-  break;
-      
+			case 'outdent':
+				const outdentAmount = '20px';
+				const parentElementOutdent = selection.focusNode?.parentElement;
+				if (parentElementOutdent) {
+					const currentMargin = parseInt(parentElementOutdent.style.marginLeft || '0', 10);
+					const newMargin = Math.max(0, currentMargin - parseInt(outdentAmount, 10)); // Jangan sampai negatif
+					parentElementOutdent.style.marginLeft = newMargin + 'px';
+					// Tetap masukkan konten yang dipilih untuk menjaga seleksi
+				}
+				break;
+
 			default:
 				console.warn(`Perintah tidak dikenal: ${command}`);
 				range.insertNode(selectedText); // Kembalikan teks jika perintah tidak dikenali
@@ -168,11 +169,12 @@
 	<!-- Rich Text Editor -->
 	<div
 		bind:this={editorElement}
-		contenteditable="true"
+		contenteditable={!disabled}
 		class="w-full p-3 border border-gray-300 rounded-b-xl focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white shadow-sm transition-all overflow-auto"
 		style={`min-height: ${minHeight};`}
 		data-placeholder={placeholder}
 		on:input={updateValue}
+		aria-disabled={disabled}
 	></div>
 </div>
 
