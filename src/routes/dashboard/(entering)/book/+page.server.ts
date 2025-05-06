@@ -14,6 +14,8 @@ export const load = async () => {
        }
     })
 
+    console.log('book', book)
+
     return {
         book
     }
