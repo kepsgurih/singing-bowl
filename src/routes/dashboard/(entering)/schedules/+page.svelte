@@ -155,10 +155,11 @@
 								class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
 								>Group</th
 							>
-              <th
-                scope="col"
-                class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >Is Group</th>
+							<th
+								scope="col"
+								class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+								>Is Group</th
+							>
 							<th
 								scope="col"
 								class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -179,7 +180,7 @@
 									>Rp {s.price.toLocaleString('id-ID')}</td
 								>
 								<td class="px-6 py-4 whitespace-nowrap text-sm">{s.group?.label || '-'}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm">{s.isGroup ? 'Yes' : 'No'}</td>
+								<td class="px-6 py-4 whitespace-nowrap text-sm">{s.isGroup ? 'Yes' : 'No'}</td>
 								<td class="px-6 py-4 whitespace-nowrap text-sm">
 									<div class="flex gap-2">
 										<button

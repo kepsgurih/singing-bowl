@@ -1,16 +1,24 @@
-import prisma from "$lib/config/prisma"
-import { fail, redirect, type Actions } from "@sveltejs/kit";
-import type { RequestEvent } from "../$types";
-import fs from 'fs/promises';
-import path from 'path';
-import { randomUUID } from 'crypto';
+import prisma from '$lib/config/prisma';
+import { fail } from '@sveltejs/kit';
 
 export const load = async () => {
-    const config = await prisma.config.findFirst();
+	const config = await prisma.config.findFirst({
+		select: {
+			name: true,
+			description: true,
+			avatar: true
+		}
+	});
 
-    if (!config) return fail(404, { errorMessage: 'Config not found' });
+	if (!config) return {
+		config: {
+			name: 'Empty',
+			avatar: 'https://picsum.photos/200',
+			description: 'Empty'
+		}
+	}
 
-    return {
-        config
-    }
-}
+	return {
+		config
+	};
+};

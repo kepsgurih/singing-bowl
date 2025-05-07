@@ -3,10 +3,29 @@ import sanitizeHtml from 'sanitize-html';
 export function safeHTML(content: string) {
 	return sanitizeHtml(content, {
 		allowedTags: [
-			'div', 'span',
-			'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-			'b', 'i', 'em', 'strong', 'a', 'p', 'ul', 'ol', 'li',
-			'blockquote', 'code', 'pre', 'br', 'hr', 'img'
+			'div',
+			'span',
+			'h1',
+			'h2',
+			'h3',
+			'h4',
+			'h5',
+			'h6',
+			'b',
+			'i',
+			'em',
+			'strong',
+			'a',
+			'p',
+			'ul',
+			'ol',
+			'li',
+			'blockquote',
+			'code',
+			'pre',
+			'br',
+			'hr',
+			'img'
 		],
 		allowedAttributes: {
 			a: ['href', 'target', 'rel'],
@@ -19,13 +38,13 @@ export function safeHTML(content: string) {
 		allowedStyles: {
 			// hanya izinkan properti CSS yang aman
 			'*': {
-				'color': [/^.*$/],
+				color: [/^.*$/],
 				'background-color': [/^.*$/],
 				'text-align': [/^left$|^right$|^center$|^justify$/],
-				'margin': [/^.*$/],
+				margin: [/^.*$/],
 				'margin-left': [/^.*$/],
 				'margin-right': [/^.*$/],
-				'padding': [/^.*$/],
+				padding: [/^.*$/],
 				'font-size': [/^.*$/],
 				'font-weight': [/^.*$/]
 			}

@@ -17,6 +17,6 @@
 
 	<h1 class="text-2xl font-semibold text-gray-800">{data.config.title}</h1>
 	<div class="text-sm text-gray-600">
-		{@html  safeHTML(data.config.description)}
+		{@html safeHTML(data.config.description)}
 	</div>
 </div>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { safeHTML } from "$lib/utils/safeHTML";
+	import { safeHTML } from '$lib/utils/safeHTML';
 
 	export let data: {
 		config: {

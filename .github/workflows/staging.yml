@@ -9,7 +9,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     environment: Beta
-    
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -31,7 +31,6 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/singing-bowl:beta-latest
           build-args: |
             NODE_ENV=production
-
 
       - name: Deploy with Docker
         uses: appleboy/ssh-action@v0.1.10

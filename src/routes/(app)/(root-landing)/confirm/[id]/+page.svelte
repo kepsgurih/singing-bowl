@@ -89,7 +89,6 @@
 				};
 			}}
 		>
-			
 			<input type="hidden" name="id" value={data.calendar.id} />
 			{#if data.schedule.price === 0}
 				<textarea
@@ -100,7 +99,7 @@
 					required
 				></textarea>
 			{/if}
-			{#if data.calendar.kelas === "Home Visit"}
+			{#if data.calendar.kelas === 'Home Visit'}
 				<textarea
 					disabled={$loading}
 					name="address"
@@ -111,9 +110,8 @@
 			{/if}
 			<div class="text-green-700 bg-green-100 p-4 rounded-lg text-sm my-4 max-w-md mx-auto">
 				<div>Please review the session you've chosen.</div>
-				<div>If everything is correct, select the button
-					below.</div>
-		</div>
+				<div>If everything is correct, select the button below.</div>
+			</div>
 			<button
 				type="submit"
 				disabled={$loading}

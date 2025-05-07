@@ -1,34 +1,34 @@
 <script lang="ts">
 	import RichTextEditor from '$lib/components/RichTextEditor.svelte';
-  import { enhance } from "$app/forms";
+	import { enhance } from '$app/forms';
 
-  export let data: {
-    schedule: {
-      id: string;
-      label: string;
-      duration: number;
-      price: number;
-      groupId: string;
-      caption: string;
-      isGroup: boolean;
-    };
-    groups: any[];
-  };
+	export let data: {
+		schedule: {
+			id: string;
+			label: string;
+			duration: number;
+			price: number;
+			groupId: string;
+			caption: string;
+			isGroup: boolean;
+		};
+		groups: any[];
+	};
 
-  let sending = false;
-  let isGroup = data.schedule.isGroup || false; 
+	let sending = false;
+	let isGroup = data.schedule.isGroup || false;
 
-  // Gunakan writable store untuk menyimpan deskripsi
-  let descriptionText = data.schedule.caption || '';  
-  
-  function handleDescriptionChange(event: CustomEvent) {
-    descriptionText = event.detail.value;
-  }
+	// Gunakan writable store untuk menyimpan deskripsi
+	let descriptionText = data.schedule.caption || '';
 
-  function handleIsGroupChange(event: Event) {
-    const target = event.target as HTMLInputElement;
-    isGroup = target.checked;
-  }
+	function handleDescriptionChange(event: CustomEvent) {
+		descriptionText = event.detail.value;
+	}
+
+	function handleIsGroupChange(event: Event) {
+		const target = event.target as HTMLInputElement;
+		isGroup = target.checked;
+	}
 </script>
 
 <div class="w-full p-4 md:p-6 lg:p-8 font-kan max-w-2xl mx-auto">
@@ -66,7 +66,7 @@
 						placeholder="Nama Schedule"
 						required
 						disabled={sending}
-            value={data.schedule.label}
+						value={data.schedule.label}
 					/>
 				</div>
 
@@ -85,7 +85,7 @@
                      transition-all duration-200 placeholder-gray-400 text-gray-700"
 							placeholder="Durasi"
 							required
-              value={data.schedule.duration}
+							value={data.schedule.duration}
 							disabled={sending}
 						/>
 					</div>
@@ -101,7 +101,7 @@
                      transition-all duration-200 placeholder-gray-400 text-gray-700"
 							placeholder="Harga"
 							required
-              value={data.schedule.price}
+							value={data.schedule.price}
 							disabled={sending}
 						/>
 					</div>
@@ -118,7 +118,7 @@
                    transition-all duration-200 text-gray-700"
 						required
 						disabled={sending}
-            value={data.schedule.groupId}
+						value={data.schedule.groupId}
 					>
 						<option value="">Pilih Group</option>
 						{#each data.groups as group}
@@ -130,15 +130,15 @@
 				<!-- Is Group Toggle -->
 				<div class="flex items-center space-x-3 pt-2">
 					<label class="inline-flex items-center cursor-pointer">
-            <input
-              type="checkbox"
-              name="isGroup"
-              class="sr-only peer"
-              onchange={handleIsGroupChange}
-              value={isGroup}
-              checked={isGroup}
-              disabled={sending}
-            />
+						<input
+							type="checkbox"
+							name="isGroup"
+							class="sr-only peer"
+							onchange={handleIsGroupChange}
+							value={isGroup}
+							checked={isGroup}
+							disabled={sending}
+						/>
 						<div
 							class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 dark:peer-checked:bg-blue-600"
 						></div>
