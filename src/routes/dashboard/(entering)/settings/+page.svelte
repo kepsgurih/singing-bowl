@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { safeHTML } from '$lib/utils/safeHTML';
   
   export let data: {
     config: {
@@ -21,7 +22,7 @@
     </div>
     <div>
       <h1 class="text-2xl font-bold text-gray-800">{data.config.name}</h1>
-      <div class="mt-2 text-gray-600 text-sm">{@html data.config.description}</div>
+      <div class="mt-2 text-gray-600 text-sm">{@html safeHTML(data.config.description)}</div>
     </div>
     <button 
     on:click={() => goto('/dashboard/settings/new')} 
