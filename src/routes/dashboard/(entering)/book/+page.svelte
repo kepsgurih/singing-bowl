@@ -330,4 +330,7 @@
 			{/if}
 		</div>
 	</div>
+	<div class="text-center">
+		Record {$filteredBookings.length} of {data.book.length}
+		</div>
 </div>

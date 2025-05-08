@@ -1,4 +1,5 @@
 import prisma from '$lib/config/prisma.js';
+import { telegramSend, TestEmail } from '$lib/helper/sending.js';
 import { fail, redirect, type Actions } from '@sveltejs/kit';
 
 export const load = async ({ params }) => {
@@ -103,13 +104,12 @@ export const actions: Actions = {
             <b>Date:</b> ${formattedDate}
             <b>Time:</b> ${calendar.time}
             <b>Location:</b> ${calendar.kelas}
-            <b>Price:</b> ${
-							schedule.price === 0
-								? 'Free'
-								: schedule.price === 123
-									? 'Pay as you wish'
-									: `Rp ${schedule.price.toLocaleString('id-ID')}`
-						}
+            <b>Price:</b> ${schedule.price === 0
+				? 'Free'
+				: schedule.price === 123
+					? 'Pay as you wish'
+					: `Rp ${schedule.price.toLocaleString('id-ID')}`
+			}
             ${reason ? `<b>Reason:</b> ${reason}` : ''}
             ${calendar.kelas === 'Home Visit' ? `<b>Address:</b> ${address}` : ''}
 
@@ -118,16 +118,7 @@ export const actions: Actions = {
             <b>Email:</b> ${locals.user.email}
             <b>Instagram:</b> ${locals.user.ig}
             `;
-
-		fetch(
-			`https://api.telegram.org/bot7877942456:AAFVYbwbNs2ulRSwV8uwVo0oekZ5DgmteNw/sendMessage?chat_id=-4656541800&text=${encodeURIComponent(message)}&parse_mode=HTML`,
-			{
-				method: 'POST'
-			}
-		);
-		//  fetch(`https://api.telegram.org/bot7877942456:AAFVYbwbNs2ulRSwV8uwVo0oekZ5DgmteNw/sendMessage?chat_id=-4713734742&text=${encodeURIComponent(message)}&parse_mode=HTML`, {
-		//     method: 'POST'
-		// });
+		telegramSend(message);
 		redirect(303, '/payment');
 	}
 };

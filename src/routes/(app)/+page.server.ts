@@ -1,4 +1,5 @@
 import prisma from '$lib/config/prisma.js';
+import type { Actions } from '@sveltejs/kit';
 
 export const load = async ({ locals }) => {
 	const config = await prisma.config.findFirst();

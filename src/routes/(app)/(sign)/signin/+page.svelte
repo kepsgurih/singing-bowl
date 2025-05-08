@@ -77,5 +77,11 @@
 				class="text-blue-500 hover:underline">Register</button
 			>
 		</p>
+		<p class="text-center text-sm mt-4">
+			Forgot your password? <button
+				onclick={() => goto('/forgot-password')}
+				class="text-blue-500 hover:underline">Reset Password</button
+			>
+		</p>
 	</div>
 </div>

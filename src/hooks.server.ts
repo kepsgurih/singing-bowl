@@ -1,4 +1,4 @@
-import type { Handle } from '@sveltejs/kit';
+import type { Handle, HandleServerError } from '@sveltejs/kit';
 import prisma from '$lib/config/prisma';
 
 export const handle: Handle = async ({ event, resolve }) => {
@@ -34,7 +34,26 @@ export const handle: Handle = async ({ event, resolve }) => {
 			ig: user.ig ?? ''
 		};
 	}
+	
 
 	// load page as normal
 	return await resolve(event);
 };
+
+export const handleError: HandleServerError = ({ error, event }) => {
+	const forwarded = event.request.headers.get('x-forwarded-for');
+	const ip = forwarded ? forwarded.split(',')[0] : event.getClientAddress();
+  
+	console.error('Error occurred:', {
+	  timestamp: new Date().toISOString(),
+	  status: 'status' in (error as Record<string, any>) ? (error as Record<string, any>).status : 500,
+	  message: error instanceof Error ? error.message : 'Unknown error',
+	  url: event.url.pathname,
+	  ip,
+	});
+  
+	return {
+	  message: 'Terjadi kesalahan pada server.',
+	  code: 'SERVER_ERROR'
+	};
+  };
