@@ -4,7 +4,10 @@ import prisma from '$lib/config/prisma';
 export const handle: Handle = async ({ event, resolve }) => {
 	// get cookies from browser
 	const session = event.cookies.get('session');
+	const forwarded = event.request.headers.get('x-forwarded-for');
+	const ip = forwarded ? forwarded.split(',')[0] : event.getClientAddress();
 
+	event.locals.ip = ip;
 	if (!session) {
 		// if there is no session load page as normal
 		return await resolve(event);
@@ -34,6 +37,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 			ig: user.ig ?? ''
 		};
 	}
+
 	
 
 	// load page as normal

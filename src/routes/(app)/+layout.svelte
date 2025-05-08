@@ -2,8 +2,6 @@
 	let { children, data } = $props();
 
 	const { user } = data;
-
-	console.log(user);
 	
 </script>
 

@@ -4,11 +4,10 @@ import { startOfDay } from 'date-fns';
 import { emailResetSend } from '$lib/helper/sending';
 
 export const actions: Actions = {
-	default: async ({ request, getClientAddress }) => {
+	default: async ({ request, getClientAddress, locals }) => {
 		const formData = await request.formData();
 		const email = formData.get('email');
-		const ip = getClientAddress();
-
+		const ip = locals.ip
 		if (!email || typeof email !== 'string') {
 			return fail(400, { messageError: 'Email is required.' });
 		}

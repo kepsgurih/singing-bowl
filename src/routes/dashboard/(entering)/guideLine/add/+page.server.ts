@@ -26,7 +26,6 @@ const postConfig = async ({ request }: { request: RequestEvent['request'] }) => 
 	const description = data.get('description')?.toString();
 
 	if (!title || !description) {
-		console.log('here');
 		return fail(400, { errorMessage: 'All fields are required' });
 	}
 

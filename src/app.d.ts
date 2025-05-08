@@ -15,6 +15,7 @@ declare global {
 				role: string;
 				ig: string | null;
 			};
+			ip: string;
 		}
 		// interface PageData {}
 		// interface PageState {}
