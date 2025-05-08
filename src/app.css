@@ -32,3 +32,36 @@
   .input:focus {
     box-shadow: 0 0 0 2px #93c5fd; /* Tailwind's focus:ring-blue-300 */
   }
+
+  .ql-toolbar.ql-snow {
+    border: none !important;
+    padding: 8px 12px;
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0 !important;
+  }
+
+  .ql-container.ql-snow {
+    border: none !important;
+    min-height: 150px;
+    font-family: inherit;
+    font-size: 16px;
+  }
+
+  .ql-editor {
+    padding: 12px 16px !important;
+  }
+
+  .ql-editor.ql-blank::before {
+    color: #94a3b8;
+    font-style: normal;
+    left: 16px;
+  }
+
+  @media (max-width: 640px) {
+    .ql-toolbar.ql-snow {
+      padding: 6px 8px;
+    }
+    .ql-formats button {
+      padding: 4px !important;
+    }
+  }

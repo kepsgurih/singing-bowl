@@ -23,6 +23,9 @@ export const actions: Actions = {
       const price = Number(formData.get('price'));
       const groupId = formData.get('groupId') as string;
       const caption = formData.get('caption') as string;
+      const isGroup = formData.get('isGroup') === 'true';
+
+      console.log('isGroup', isGroup);
       
       if (!label || !duration || !groupId || !caption) {
         return fail(400, { success: false, message: 'Data tidak lengkap' });
@@ -35,6 +38,7 @@ export const actions: Actions = {
             price: price || 0,
             groupId,
             caption,
+            isGroup : isGroup ? true : false,
           }
         });
   

@@ -1,6 +1,36 @@
 <script lang="ts">
   import { rupiahFormat } from "$lib/helper/rupiahFormat";
+	import { onMount } from "svelte";
+	import { writable } from "svelte/store";
   export let data: any;
+
+  let filters = {
+    class: "",
+    date: "",
+    isGroup: "",
+    location: "",
+    fullName: "",
+  };
+
+  let filteredBookings = writable(data.book);
+
+const applyFilters = () => {
+  filteredBookings.set(
+    data.book.filter((booking:any) => {
+      return (
+        (!filters.class || booking.calendar.schedule.label.toLowerCase().includes(filters.class.toLowerCase())) &&
+        (!filters.date || new Date(booking.calendar.date).toISOString().split("T")[0] === filters.date) &&
+        (!filters.isGroup || (filters.isGroup === "yes" ? booking.calendar.schedule.isGroup : !booking.calendar.schedule.isGroup)) &&
+        (!filters.location || booking.calendar.kelas.toLowerCase().includes(filters.location.toLowerCase())) &&
+        (!filters.fullName || booking.user.fullName.toLowerCase().includes(filters.fullName.toLowerCase()))
+      );
+    })
+  );
+};
+
+onMount(() => {
+  applyFilters();
+});
 </script>
 
 <div class="min-h-screen bg-gray-50">
@@ -11,12 +41,54 @@
     </div>
 
     <!-- Table View (visible on larger screens) -->
+    <div class="mb-6">
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+        <input
+          type="text"
+          placeholder="Filter by Class"
+          class="border border-gray-300 rounded-lg px-4 py-2"
+          bind:value={filters.class}
+          on:input={applyFilters}
+        />
+        <input
+          type="date"
+          class="border border-gray-300 rounded-lg px-4 py-2"
+          bind:value={filters.date}
+          on:input={applyFilters}
+        />
+        <select
+          class="border border-gray-300 rounded-lg px-4 py-2"
+          bind:value={filters.isGroup}
+          on:change={applyFilters}
+        >
+          <option value="">Filter by Is Group</option>
+          <option value="yes">Yes</option>
+          <option value="no">No</option>
+        </select>
+        <input
+          type="text"
+          placeholder="Filter by Location"
+          class="border border-gray-300 rounded-lg px-4 py-2"
+          bind:value={filters.location}
+          on:input={applyFilters}
+        />
+        <input
+          type="text"
+          placeholder="Filter by Full Name"
+          class="border border-gray-300 rounded-lg px-4 py-2"
+          bind:value={filters.fullName}
+          on:input={applyFilters}
+        />
+      </div>
+    </div>
     <div class="hidden md:block overflow-hidden rounded-xl shadow-md bg-white font-kan">
       <div class="overflow-x-auto">
         <table class="min-w-full divide-y divide-gray-200">
           <thead class="bg-gray-50">
             <tr>
               <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Class</th>
+              <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Is Group ?</th>
+              <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date time</th>
               <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
               <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
               <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Full Name</th>
@@ -26,9 +98,17 @@
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
-            {#each data.book as booking}
+            {#each $filteredBookings as booking}
               <tr class="hover:bg-gray-50 transition-colors">
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{booking.calendar.schedule.label}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{booking.calendar.schedule.isGroup ? "Yes" : "No"}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  {new Date(booking.calendar.date).toLocaleDateString('id-ID', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                  })} {booking.calendar.time}
+                </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   {#if booking.calendar.schedule.price === 0}
                   Free
@@ -133,7 +213,7 @@
         </div>
       {/each}
       
-      {#if data.book.length === 0}
+      {#if $filteredBookings.length === 0}
         <div class="bg-white rounded-xl shadow-sm p-8 text-center">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />

@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
+  import { ChevronLeftIcon, ChevronRightIcon, PlusIcon } from 'lucide-svelte';
   
   interface Calendar {
     id: string;
@@ -13,16 +13,28 @@
       label: string;
     };
   }
-  export let form : {
+  
+  export let form: {
     message: string;
     success: boolean;
   }
+  
   export let data: {
     calendar: Calendar[];
+    pagination: {
+      currentPage: number;
+      totalPages: number;
+      totalItems: number;
+      itemsPerPage: number;
+    };
   }
+  
   let filterQuery = '';
   let filteredCalendars = data.calendar;
+  const itemsPerPageOptions = [5, 10, 25, 50, 100];
+  let selectedItemsPerPage = data.pagination.itemsPerPage;
 
+  // Reactive block untuk filter
   $: filteredCalendars = data.calendar.filter(c => 
     new Date(c.date).toLocaleDateString().includes(filterQuery) || 
     c.kelas.toLowerCase().includes(filterQuery.toLowerCase()) || 
@@ -30,6 +42,21 @@
     c.time.includes(filterQuery) || 
     (c.schedule?.label || '').toLowerCase().includes(filterQuery.toLowerCase())
   );
+
+  // Fungsi untuk navigasi halaman
+  function goToPage(pageNum: number) {
+    const url = new URL(window.location.href);
+    url.searchParams.set('page', pageNum.toString());
+    goto(url.toString(), { keepFocus: true });
+  }
+
+  // Fungsi untuk mengubah items per page
+  function changeItemsPerPage() {
+    const url = new URL(window.location.href);
+    url.searchParams.set('perPage', selectedItemsPerPage.toString());
+    url.searchParams.set('page', '1'); // Reset ke halaman pertama
+    goto(url.toString(), { keepFocus: true });
+  }
 </script>
 
 <div class="min-h-screen bg-gray-50">
@@ -46,28 +73,38 @@
       </div>
     {/if}
 
-    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+    <div class="flex justify-between items-start sm:items-center mb-6 gap-4">
       <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 font-nanum">Calendars</h1>
       <button
         on:click={() => goto('/dashboard/calendars/new')}
         class="bg-indigo-600 text-white px-4 py-2.5 rounded-lg hover:bg-indigo-700 shadow-sm transition-all duration-200 flex items-center gap-2 text-sm sm:text-base font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
-        </svg>
-        Tambah Calendar
+       <PlusIcon class="h-5 w-5" /> 
       </button>
     </div>
 
 
     <!-- Filter Section -->
-    <div class="mb-6">
+    <div class="mb-6 flex flex-col sm:flex-row gap-4">
       <input
         type="text"
-        placeholder="Cari berdasarkan tanggal, kelas, atau status..."
-        class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        placeholder="Search by date, class, or status..."
+        class="w-full sm:w-2/3 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
         bind:value={filterQuery}
       />
+      <div class="flex items-center gap-2 sm:w-1/3">
+        <label for="itemsPerPage" class="text-sm text-gray-600 whitespace-nowrap">Items per page:</label>
+        <select
+          id="itemsPerPage"
+          bind:value={selectedItemsPerPage}
+          on:change={changeItemsPerPage}
+          class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+        >
+          {#each itemsPerPageOptions as option}
+            <option value={option}>{option}</option>
+          {/each}
+        </select>
+      </div>
     </div>
 
     <!-- Mobile Card View (visible on small screens) -->
@@ -120,22 +157,22 @@
         </div>
       {/each}
       
-      {#if filteredCalendars.length === 0}
-        <div class="bg-white rounded-xl shadow-sm p-8 text-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
-          <h3 class="text-lg font-medium text-gray-900">Belum ada calendar</h3>
-          <p class="mt-1 text-sm text-gray-500">Mulai dengan menambahkan jadwal baru</p>
-          <button
-            on:click={() => goto('/dashboard/calendars/new')}
-            class="mt-4 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 shadow-sm transition-all duration-200 text-sm font-medium"
-          >
-            Tambah Calendar
-          </button>
-        </div>
-      {/if}
     </div>
+    {#if filteredCalendars.length === 0}
+      <div class="bg-white rounded-xl shadow-sm p-8 text-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+        <h3 class="text-lg font-medium text-gray-900">Belum ada calendar</h3>
+        <p class="mt-1 text-sm text-gray-500">Mulai dengan menambahkan jadwal baru</p>
+        <button
+          on:click={() => goto('/dashboard/calendars/new')}
+          class="mt-4 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 shadow-sm transition-all duration-200 text-sm font-medium"
+        >
+          Tambah Calendar
+        </button>
+      </div>
+    {/if}
 
     <!-- Table View (visible on larger screens) -->
     <div class="hidden sm:block overflow-hidden rounded-xl shadow-md bg-white font-kan">
@@ -192,23 +229,55 @@
           </tbody>
         </table>
       </div>
-      
-      <!-- Empty State -->
-      {#if filteredCalendars.length === 0}
-        <div class="flex flex-col items-center justify-center py-12 px-6 text-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
-          <h3 class="text-lg font-medium text-gray-900">Belum ada calendar</h3>
-          <p class="mt-1 text-sm text-gray-500">Mulai dengan menambahkan jadwal baru</p>
-          <button
-            on:click={() => goto('/dashboard/calendars/new')}
-            class="mt-4 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 shadow-sm transition-all duration-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-          >
-            Tambah Calendar
-          </button>
+    </div>
+    <div class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6 mt-4 rounded-b-lg">
+      <div class="flex flex-1 flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div class="flex items-center gap-4">
+          <p class="text-sm text-gray-700">
+            Showing <span class="font-medium">{(data.pagination.currentPage - 1) * data.pagination.itemsPerPage + 1}</span> to <span class="font-medium">{Math.min(data.pagination.currentPage * data.pagination.itemsPerPage, data.pagination.totalItems)}</span> of <span class="font-medium">{data.pagination.totalItems}</span> results
+          </p>
         </div>
-      {/if}
+        <div class="flex flex-col sm:flex-row gap-4 sm:items-center">
+          <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+            {#if data.pagination.currentPage > 1}
+              <button
+                on:click={() => goToPage(data.pagination.currentPage - 1)}
+                class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+              >
+                <span class="sr-only">Previous</span>
+                <ChevronLeftIcon class="h-5 w-5" aria-hidden="true" />
+              </button>
+            {/if}
+   
+            {#each Array.from({ length: data.pagination.totalPages }, (_, i) => i + 1) as pageNumber}
+              {#if Math.abs(pageNumber - data.pagination.currentPage) <= 2 || 
+                   pageNumber === 1 || 
+                   pageNumber === data.pagination.totalPages}
+                <button
+                  on:click={() => goToPage(pageNumber)}
+                  class={`relative inline-flex items-center px-4 py-2 text-sm font-semibold 
+                    ${pageNumber === data.pagination.currentPage ? 
+                      'bg-indigo-600 text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600' : 
+                      'text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0'}`}
+                >
+                  {pageNumber}
+                </button>
+              {/if}
+            {/each}
+   
+            {#if data.pagination.currentPage < data.pagination.totalPages}
+              <button
+                on:click={() => goToPage(data.pagination.currentPage + 1)}
+                class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+              >
+                <span class="sr-only">Next</span>
+                <ChevronRightIcon class="h-5 w-5" aria-hidden="true" />
+              </button>
+            {/if}
+          </nav>
+        </div>
+      </div>
     </div>
   </div>
-</div>
+    </div>
+

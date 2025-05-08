@@ -82,12 +82,15 @@ export const actions: Actions = {
             }
         })
 
-        await prisma.calendar.update({
-            where: { id: calendar.id },
-            data: {
-            status: 'Booked'
-            }
-        })
+        if (!schedule.isGroup){
+            await prisma.calendar.update({
+                where: { id: calendar.id },
+                data: {
+                status: 'Booked'
+                }
+            })
+        }
+
 
         const formattedDate = new Date(calendar.date).toLocaleDateString('en-US', {
             day: '2-digit',
@@ -97,6 +100,7 @@ export const actions: Actions = {
         const message = `
             <b>New Booking Request</b>
             <b>Class:</b> ${schedule.label}
+            <b>is Group:</b> ${schedule.isGroup ? 'Yes' : 'No'}
             <b>Date:</b> ${formattedDate}
             <b>Time:</b> ${calendar.time}
             <b>Location:</b> ${calendar.kelas}
@@ -113,13 +117,15 @@ export const actions: Actions = {
             <b>Name:</b> ${locals.user.fullName}
             <b>Phone:</b> ${locals.user.phone}
             <b>Email:</b> ${locals.user.email}
-
             <b>Instagram:</b> ${locals.user.ig}
             `;
 
         fetch(`https://api.telegram.org/bot7877942456:AAFVYbwbNs2ulRSwV8uwVo0oekZ5DgmteNw/sendMessage?chat_id=-4656541800&text=${encodeURIComponent(message)}&parse_mode=HTML`, {
             method: 'POST'
         });
+        //  fetch(`https://api.telegram.org/bot7877942456:AAFVYbwbNs2ulRSwV8uwVo0oekZ5DgmteNw/sendMessage?chat_id=-4713734742&text=${encodeURIComponent(message)}&parse_mode=HTML`, {
+        //     method: 'POST'
+        // });
         redirect(303, '/payment')
     }
 }

@@ -5,12 +5,6 @@
       links: {
         id: string; name: string; username: string; url: string
       }[]
-    }
-  
-    const deleteLink = async (id: string) => {
-      if (confirm('Yakin mau hapus?')) {
-        await fetch(`/api/setup/linktree/${id}`, { method: 'DELETE' });
-      }
     };
   
   </script>
@@ -32,7 +26,7 @@
             <a href={link.url} target="_blank" class="text-blue-500 text-sm w-[200px]">{link.url}</a>
           </div>
           <div class="flex gap-2 mt-4">
-            <button on:click={() => goto(`/dashboard/tree/edit/${link.id}`)} class="bg-yellow-400 px-3 py-1 rounded text-white hover:bg-yellow-500">
+            <button on:click={() => goto(`/dashboard/tree/edit/${link.id}`)} class="bg-orange-400 px-3 py-1 rounded text-white hover:bg-yellow-500">
               Edit
             </button>
             <form method="POST" class="inline">

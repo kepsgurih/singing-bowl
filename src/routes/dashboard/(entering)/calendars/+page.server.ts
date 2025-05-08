@@ -1,16 +1,30 @@
 import prisma from "$lib/config/prisma"
-import { fail, redirect } from "@sveltejs/kit"
+import { fail } from "@sveltejs/kit"
 
-export const load = async () => {
+export const load = async ({ url }) => {
+    const page = Number(url.searchParams.get('page') || 1);
+    const perPage = Number(url.searchParams.get('perPage') || 10); // Default 10 items per page
+    
+    const totalCalendars = await prisma.calendar.count();
+    const totalPages = Math.ceil(totalCalendars / perPage);
+    
     const calendar = await prisma.calendar.findMany({
         orderBy: { date: 'asc' },
         include: {
             schedule: true,
-        }
+        },
+        skip: (page - 1) * perPage,
+        take: perPage
     })
 
     return {
-        calendar
+        calendar,
+        pagination: {
+            currentPage: page,
+            totalPages,
+            totalItems: totalCalendars,
+            itemsPerPage: perPage
+        }
     }
 }
 
