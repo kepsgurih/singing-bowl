@@ -1,7 +1,5 @@
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export const telegramSend = async (message: string) => {
     const response = fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage?chat_id=${process.env.TELEGRAM_CHAT_ID}&text=${encodeURIComponent(message)}&parse_mode=HTML`, {
         method: 'POST'
@@ -15,6 +13,7 @@ export const telegramSend = async (message: string) => {
 }
 
 export const emailResetSend = async (email: string, token: string) => {
+    const resend = new Resend(process.env.RESEND_API_KEY);
     const resetLink = `${process.env.ORIGIN}/reset/${token}`;
     await resend.emails.send({
         from: 'theravickya <us@theravickya.com>',
@@ -72,6 +71,7 @@ export const emailResetSend = async (email: string, token: string) => {
 
 
 export const TestEmail = async (email: string) => {
+    const resend = new Resend(process.env.RESEND_API_KEY);
     await resend.emails.send({
         from: 'theravickya <us@theravickya.com>',
         to: email,
