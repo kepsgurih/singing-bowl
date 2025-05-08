@@ -67,23 +67,22 @@
 	};
 
 	const isDateDisabled = (date: dayjs.Dayjs) => {
-	// kalau tidak ada kelas di tanggal itu, disable
-	const kelas = getKelasForDate(date);
-	if (!kelas.length) return true;
+		// kalau tidak ada kelas di tanggal itu, disable
+		const kelas = getKelasForDate(date);
+		if (!kelas.length) return true;
 
-	// kalau semua kelas di tanggal itu sudah lewat (expired), disable juga
-	const allExpired = kelas.every((k) =>
-		dayjs(`${k.date} ${k.time}`, 'YYYY-MM-DD HH:mm').isBefore(dayjs())
-	);
-	return allExpired;
-};
-
+		// kalau semua kelas di tanggal itu sudah lewat (expired), disable juga
+		const allExpired = kelas.every((k) =>
+			dayjs(`${k.date} ${k.time}`, 'YYYY-MM-DD HH:mm').isBefore(dayjs())
+		);
+		return allExpired;
+	};
 
 	const hari = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 	const handleConfirm = (id: string) => {
 		confirmClass.set(id);
-		goto('/confirm/'+id);
+		goto('/confirm/' + id);
 	};
 </script>
 
@@ -161,18 +160,30 @@
 
 			<div class="grid grid-cols-2 gap-2">
 				{#each getKelasForDate(selectedDate) as k}
-						<button
-							on:click={() => handleConfirm(k.id)}
-							disabled={k.status !== 'Active' || dayjs(`${k.date} ${k.time}`, 'YYYY-MM-DD HH:mm').isBefore(dayjs())}
-
-							class={["rounded-lg p-2 text-sm disable:bg-red-900 disabled:bg-gray-600 disabled:text-gray-200" ,k.status === 'Active'
+					<button
+						on:click={() => handleConfirm(k.id)}
+						disabled={k.status !== 'Active' ||
+							dayjs(`${k.date} ${k.time}`, 'YYYY-MM-DD HH:mm').isBefore(dayjs())}
+						class={[
+							'rounded-lg p-2 text-sm disable:bg-red-900 disabled:bg-gray-600 disabled:text-gray-200',
+							k.status === 'Active'
 								? 'bg-purple-500 text-white hover:bg-purple-600'
-								: 'bg-red-300 text-gray-50 cursor-not-allowed']}>
-								<div>{k.kelas}</div>
-								<div class={k.status !== 'Active' || dayjs(`${k.date} ${k.time}`, 'YYYY-MM-DD HH:mm').isBefore(dayjs()) ? "line-through" : ""}>{k.time}</div>
-								<span class="text-xs block">{k.status === 'Active' ? '' : k.status.toLocaleUpperCase()}</span>
-								</button
+								: 'bg-red-300 text-gray-50 cursor-not-allowed'
+						]}
+					>
+						<div>{k.kelas}</div>
+						<div
+							class={k.status !== 'Active' ||
+							dayjs(`${k.date} ${k.time}`, 'YYYY-MM-DD HH:mm').isBefore(dayjs())
+								? 'line-through'
+								: ''}
 						>
+							{k.time}
+						</div>
+						<span class="text-xs block"
+							>{k.status === 'Active' ? '' : k.status.toLocaleUpperCase()}</span
+						>
+					</button>
 				{/each}
 			</div>
 		</div>

@@ -29,8 +29,7 @@
 
 	let kelas = data.calendar.map((item) => ({
 		...item,
-		date: new Date(item.date)
-	.toISOString().split('T')[0]
+		date: new Date(item.date).toISOString().split('T')[0]
 	}));
 
 	headerTitle.set({

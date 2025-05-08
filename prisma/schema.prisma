@@ -28,6 +28,15 @@ model User {
   Booked   Booked[]
 }
 
+model ForgotPassword {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  ip         String
+  email      String   // hapus @unique
+  token      String   @unique
+  expiredAt  DateTime
+  createdAt  DateTime @default(now())
+}
+
 model Config {
   id          String @id @default(auto()) @map("_id") @db.ObjectId
   name        String

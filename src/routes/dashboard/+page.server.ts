@@ -4,56 +4,55 @@ import { fail, redirect } from '@sveltejs/kit';
 import bcrypt from 'bcrypt';
 import type { Cookies, RequestEvent } from '@sveltejs/kit';
 
-export const load = async ({locals}) => {
-    if (locals?.user?.role === 'ADMIN') {
-        throw redirect(302, '/dashboard/app');
-    }
-}
+export const load = async ({ locals }) => {
+	if (locals?.user?.role === 'ADMIN') {
+		throw redirect(302, '/dashboard/app');
+	}
+};
 
+const login = async ({
+	cookies,
+	request
+}: {
+	cookies: Cookies;
+	request: RequestEvent['request'];
+}) => {
+	const data = await request.formData();
+	const email = data.get('email');
+	const password = data.get('password');
+	if (typeof email !== 'string' || typeof password !== 'string' || !email || !password) {
+		return fail(400, { invalid: true });
+	}
 
+	const user = await prisma.user.findUnique({ where: { email } });
+	if (!user) {
+		return fail(400, { credentials: true });
+	}
 
-const login = async ({ cookies, request }: { cookies: Cookies; request: RequestEvent['request'] }) => {
-    const data = await request.formData();
-    const email = data.get('email');
-    const password = data.get('password');
-    if (
-        typeof email !== 'string' ||
-        typeof password !== 'string' ||
-        !email ||
-        !password
-    ) {
-        return fail(400, { invalid: true })
-    }
+	const isValid = await bcrypt.compare(password, user.password);
 
-    const user = await prisma.user.findUnique({ where: { email } });
-    if (!user) {
-        return fail(400, { credentials: true })
-    }
+	if (!isValid) {
+		return new Response(JSON.stringify({ error: 'Incorrect password' }), { status: 401 });
+	}
 
-    const isValid = await bcrypt.compare(password, user.password);
+	const authenticatedUser = await prisma.user.update({
+		where: { email: user.email },
+		data: { token: crypto.randomUUID() }
+	});
+	if (!authenticatedUser.token) {
+		throw new Error('Token is null or undefined');
+	}
 
-    if (!isValid) {
-        return new Response(JSON.stringify({ error: 'Incorrect password' }), { status: 401 });
-    }
+	cookies.set('session', authenticatedUser.token, {
+		path: '/',
+		httpOnly: true,
+		sameSite: 'strict',
+		secure: process.env.NODE_ENV === 'production',
+		maxAge: 60 * 60 * 24 * 30
+	});
 
-    const authenticatedUser = await prisma.user.update({
-        where: { email: user.email },
-        data: { token: crypto.randomUUID() },
-    })
-    if (!authenticatedUser.token) {
-        throw new Error('Token is null or undefined');
-    }
+	// redirect the user
+	redirect(302, '/dashboard/app');
+};
 
-    cookies.set('session', authenticatedUser.token, {
-        path: '/',
-        httpOnly: true,
-        sameSite: 'strict',
-        secure: process.env.NODE_ENV === 'production',
-        maxAge: 60 * 60 * 24 * 30,
-      })
-    
-      // redirect the user
-      redirect(302, '/dashboard/app');
-}
-
-export const actions = { login }
+export const actions = { login };

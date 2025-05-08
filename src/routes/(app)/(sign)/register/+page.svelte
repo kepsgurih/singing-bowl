@@ -12,22 +12,23 @@
 
 <div class="min-h-screen flex items-center justify-center w-full mt-4 md:mt-10">
 	<div class="w-full max-w-md bg-white rounded-2xl shadow-md p-6 mx-4">
-  
 		<h1 class="text-2xl font-bold mb-2 text-center">Register Account</h1>
 		<p class="text-sm text-gray-600 mb-6 text-center">
 			Before you get started let's create your account
 		</p>
 
-		
-
-		<form action="?register" method="POST" use:enhance={() => {
-			loading = true
-			return ({ update }) => {
-				update({ invalidateAll: true }).finally(async () => { 
-					loading = false
-				});
-			};
-		}}>
+		<form
+			action="?register"
+			method="POST"
+			use:enhance={() => {
+				loading = true;
+				return ({ update }) => {
+					update({ invalidateAll: true }).finally(async () => {
+						loading = false;
+					});
+				};
+			}}
+		>
 			<div class="mb-5">
 				<label for="password" class="block mb-2 text-sm font-medium text-gray-900"
 					>Display Name</label
@@ -54,7 +55,6 @@
 				/>
 			</div>
 
-			
 			<!-- Email -->
 			<div class="mb-5">
 				<label for="password" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
@@ -70,7 +70,9 @@
 			</div>
 
 			<div class="mb-5">
-				<label for="instagram" class="block mb-2 text-sm font-medium text-gray-900">Instagram <span class="italic">{'(Optional)'}</span></label>
+				<label for="instagram" class="block mb-2 text-sm font-medium text-gray-900"
+					>Instagram <span class="italic">{'(Optional)'}</span></label
+				>
 				<input
 					id="instagram"
 					type="text"
@@ -113,7 +115,9 @@
 
 			<!-- Phone -->
 			{#if form?.errorMessage}
-			<div class="text-center text-sm font-kan text-red-600 bg-rose-100 py-4 rounded-lg mb-4">{form.errorMessage}</div>
+				<div class="text-center text-sm font-kan text-red-600 bg-rose-100 py-4 rounded-lg mb-4">
+					{form.errorMessage}
+				</div>
 			{/if}
 			<!-- Submit -->
 			<button

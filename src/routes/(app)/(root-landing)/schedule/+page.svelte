@@ -2,6 +2,7 @@
 	import { goto } from '$app/navigation';
 	import { rupiahFormat } from '$lib/helper/rupiahFormat';
 	import { headerTitle } from '$lib/stores/header';
+	import { safeHTML } from '$lib/utils/safeHTML';
 	import { slide, fade } from 'svelte/transition';
 
 	headerTitle.set({
@@ -123,7 +124,7 @@
 								</div>
 
 								{#if expandedSchedules.has(s.label)}
-									<div class="mt-2 font-kan text-gray-500 text-xs">{@html s.caption}</div>
+									<div class="mt-2 font-kan text-gray-500 text-xs">{@html safeHTML(s.caption)}</div>
 								{/if}
 							</div>
 

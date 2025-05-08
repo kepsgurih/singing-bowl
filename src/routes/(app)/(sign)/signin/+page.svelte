@@ -3,7 +3,7 @@
 	import { enhance } from '$app/forms';
 	import type { PageProps } from './$types';
 
-	let { form }:PageProps = $props();
+	let { form }: PageProps = $props();
 	let loading = $state(false);
 </script>
 
@@ -12,18 +12,22 @@
 		<h1 class="text-2xl font-bold mb-2 text-center">Welcome Back</h1>
 		<p class="text-sm text-gray-600 mb-6 text-center">Hello! Good to see you again</p>
 
-		<form action="?/login" method="POST" use:enhance={() => {
-			loading = true;
-			return ({ update }) => {
-				update({ invalidateAll: true }).finally(async () => { 
-					loading = false;
-				});
-			};
-		}}>
+		<form
+			action="?/login"
+			method="POST"
+			use:enhance={() => {
+				loading = true;
+				return ({ update }) => {
+					update({ invalidateAll: true }).finally(async () => {
+						loading = false;
+					});
+				};
+			}}
+		>
 			<div class="mb-5">
 				<label for="email" class="block mb-2 text-sm font-medium text-gray-900">Your email</label>
 				<input
-				disabled={loading}
+					disabled={loading}
 					type="email"
 					id="email"
 					class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
@@ -37,7 +41,7 @@
 					>Your password</label
 				>
 				<input
-				disabled={loading}
+					disabled={loading}
 					type="password"
 					id="password"
 					placeholder="**********"
@@ -60,19 +64,23 @@
 		</form>
 
 		{#if form?.invalid}
-				<p class="text-center text-red-700 font-xs my-10">Username and password is required.</p>
-			{/if}
+			<p class="text-center text-red-700 font-xs my-10">Username and password is required.</p>
+		{/if}
 
-			{#if form?.credentials}
-				<p class="text-center text-red-700 font-xs my-10">
-					You have entered the wrong credentials.
-				</p>
-			{/if}
+		{#if form?.credentials}
+			<p class="text-center text-red-700 font-xs my-10">You have entered the wrong credentials.</p>
+		{/if}
 
 		<p class="text-center text-sm mt-4">
 			Don't have an account? <button
 				onclick={() => goto('/register')}
 				class="text-blue-500 hover:underline">Register</button
+			>
+		</p>
+		<p class="text-center text-sm mt-4">
+			Forgot your password? <button
+				onclick={() => goto('/forgot-password')}
+				class="text-blue-500 hover:underline">Reset Password</button
 			>
 		</p>
 	</div>

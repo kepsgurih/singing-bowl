@@ -4,8 +4,6 @@ WORKDIR /app
 
 RUN apt-get update -y && apt-get install -y openssl
 
-ENV ORIGIN=https://theravickya.com
-
 COPY package.json bun.lockb ./
 RUN bun install
 
@@ -16,6 +14,9 @@ RUN bunx prisma generate
 
 RUN bun run build
 
+COPY scripts/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 EXPOSE 8080
 
-CMD ["bun", "run", "preview"]
+CMD ["/entrypoint.sh"]

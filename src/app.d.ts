@@ -3,6 +3,9 @@
 declare global {
 	namespace App {
 		// interface Error {}
+		interface Error {
+			code: string;
+		}
 		interface Locals {
 			user: {
 				id: string;
@@ -12,6 +15,7 @@ declare global {
 				role: string;
 				ig: string | null;
 			};
+			ip: string;
 		}
 		// interface PageData {}
 		// interface PageState {}

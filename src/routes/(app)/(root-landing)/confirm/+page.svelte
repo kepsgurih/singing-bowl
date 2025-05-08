@@ -4,7 +4,7 @@
 	import { confirmClass } from '$lib/stores/classConfirm';
 
 	let loading = $state(true);
-    
+
 	onMount(() => {
 		if (confirmClass) {
 			goto(`/confirm/${$confirmClass}`).then(() => {
