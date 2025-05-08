@@ -4,7 +4,7 @@ import { startOfDay } from 'date-fns';
 import { emailResetSend } from '$lib/helper/sending';
 
 export const actions: Actions = {
-	default: async ({ request, getClientAddress, locals }) => {
+	default: async ({ request, locals }) => {
 		const formData = await request.formData();
 		const email = formData.get('email');
 		const ip = locals.ip
